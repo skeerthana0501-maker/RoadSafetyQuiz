@@ -319,11 +319,7 @@ wss.on("connection", (ws, req) => {
   ws.on("close", () => {
     users.delete(userId);
     if (userId === organizerId) {
-      // If organizer leaves, pick a new one if quiz hasn't started
-      if (quizState === "setup" || quizState === "joining") {
-        organizerId = null; // Next person to connect or message will become organizer
-        // In a real app we'd notify someone, but here we'll just let the next connection take over
-      }
+      organizerId = null;
     }
     broadcast({ type: "user_list", users: Array.from(users.values()) });
   });

@@ -38,7 +38,7 @@ const BackgroundAnimation = () => (
   </div>
 );
 
-const SessionEndedView = () => (
+const SessionEndedView = ({ onHostLogin }: { onHostLogin: () => void }) => (
   <div className="min-h-screen bg-[#1A0B2E] flex items-center justify-center p-4 font-sans text-white">
     <BackgroundAnimation />
     <motion.div 
@@ -53,12 +53,20 @@ const SessionEndedView = () => (
       <p className="text-purple-300/60 serif italic text-lg">
         This quiz session has already concluded. You can't join this one anymore!
       </p>
-      <button
-        onClick={() => window.location.href = window.location.origin}
-        className="w-full bg-white text-black py-4 rounded-2xl font-black hover:scale-[1.02] transition-all"
-      >
-        START YOUR OWN SESSION
-      </button>
+      <div className="space-y-4">
+        <button
+          onClick={() => window.location.href = window.location.origin}
+          className="w-full bg-white text-black py-4 rounded-2xl font-black hover:scale-[1.02] transition-all"
+        >
+          START YOUR OWN SESSION
+        </button>
+        <button
+          onClick={onHostLogin}
+          className="w-full bg-white/5 text-purple-300 py-3 rounded-2xl font-bold text-sm hover:bg-white/10 transition-all border border-white/10 flex items-center justify-center gap-2"
+        >
+          <Crown size={16} /> HOST LOGIN
+        </button>
+      </div>
     </motion.div>
   </div>
 );
@@ -93,6 +101,7 @@ export default function App() {
   const [hostAuthPassword, setHostAuthPassword] = useState("");
   const [hostAuthError, setHostAuthError] = useState(false);
   const [showUpdateToast, setShowUpdateToast] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   const currentVersion = "1.1.1-20260310-0145";
 
   // Check for updates
@@ -487,7 +496,53 @@ export default function App() {
 
   if (!isJoined && !(isOrganizer && quizState !== "setup")) {
     if (quizState === "leaderboard") {
-      return <SessionEndedView />;
+      return (
+        <>
+          <SessionEndedView onHostLogin={() => setShowHostAuth(true)} />
+          <AnimatePresence>
+            {showHostAuth && (
+              <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-[#1A0B2E] p-8 rounded-[2.5rem] border border-white/20 shadow-2xl max-w-xs w-full space-y-6 text-center"
+                >
+                  <div className="bg-purple-500/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
+                    <Crown className="text-purple-400 w-8 h-8" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-black uppercase tracking-widest">Host Login</h3>
+                    <p className="text-purple-300/50 text-xs italic serif">Enter password to claim session</p>
+                  </div>
+                  <div className="space-y-4">
+                    <input
+                      type="password"
+                      value={hostAuthPassword}
+                      onChange={(e) => setHostAuthPassword(e.target.value)}
+                      placeholder="Host Password"
+                      className={`bg-white/5 border ${hostAuthError ? 'border-red-500' : 'border-white/10'} rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 w-full transition-colors`}
+                      onKeyDown={(e) => e.key === "Enter" && handleHostAuthSubmit()}
+                    />
+                    {hostAuthError && <p className="text-red-400 text-[10px] font-black uppercase tracking-widest animate-pulse">Invalid Password</p>}
+                    <button
+                      onClick={handleHostAuthSubmit}
+                      className="w-full bg-purple-500 hover:bg-purple-600 py-3 rounded-xl font-black transition-all uppercase tracking-widest text-sm"
+                    >
+                      VERIFY
+                    </button>
+                    <button
+                      onClick={() => setShowHostAuth(false)}
+                      className="text-[10px] font-bold text-white/20 hover:text-white/40 uppercase tracking-widest"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
+        </>
+      );
     }
     
     if (quizState === "setup") {
@@ -502,6 +557,12 @@ export default function App() {
                   <p className="text-purple-300/50 serif italic">Design your custom session</p>
                 </div>
                 <div className="flex flex-wrap gap-4">
+                  <button
+                    onClick={() => setShowShareModal(true)}
+                    className="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all"
+                  >
+                    <LinkIcon size={20} /> Share Link
+                  </button>
                   <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
                     <input 
                       type="text"
@@ -608,19 +669,17 @@ export default function App() {
               </div>
               
               <div className="pt-8 border-t border-white/5">
-                {!new URLSearchParams(window.location.search).has("session") && (
+                {!showHostAuth ? (
                   <>
-                    {!showHostAuth ? (
-                      <>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-4">Are you the host?</p>
-                        <button 
-                          onClick={() => setShowHostAuth(true)}
-                          className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-bold transition-colors"
-                        >
-                          <Crown size={16} /> Enter Setup Mode
-                        </button>
-                      </>
-                    ) : (
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-4">Are you the host?</p>
+                    <button 
+                      onClick={() => setShowHostAuth(true)}
+                      className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-bold transition-colors"
+                    >
+                      <Crown size={16} /> Enter Setup Mode
+                    </button>
+                  </>
+                ) : (
                       <div className="space-y-4 max-w-xs mx-auto">
                         <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Host Authentication</p>
                         <div className="flex gap-2">
@@ -648,8 +707,6 @@ export default function App() {
                         </button>
                       </div>
                     )}
-                  </>
-                )}
               </div>
             </div>
           </div>
@@ -714,7 +771,14 @@ export default function App() {
             </span>
           </div>
 
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowShareModal(true)}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl transition-all text-sm font-bold border border-white/10"
+            >
+              <LinkIcon size={16} />
+              <span className="hidden sm:inline">Share Quiz</span>
+            </button>
             {isOrganizer && (quizState === "question" || quizState === "answer") && (
               <div className="relative">
                 <button
@@ -823,6 +887,12 @@ export default function App() {
                           >
                             {copied ? "COPIED!" : "COPY LINK"}
                           </button>
+                        </div>
+                        <div className="flex items-start gap-2 text-left bg-amber-500/5 p-3 rounded-xl border border-amber-500/10">
+                          <AlertCircle className="text-amber-500 shrink-0 mt-0.5" size={14} />
+                          <p className="text-[10px] text-amber-200/60 leading-tight">
+                            <span className="font-bold text-amber-400">Note:</span> Share the link above. Do not copy the URL from your browser's address bar if you are using AI Studio.
+                          </p>
                         </div>
                       </div>
 
@@ -1031,14 +1101,91 @@ export default function App() {
                   </div>
                 </div>
                 
-                <p className="text-white/20 font-black uppercase tracking-widest text-xs pt-8">
-                  Thank you for playing. Drive safely!
-                </p>
+                <div className="pt-12 space-y-4">
+                  {isOrganizer && (
+                    <button
+                      onClick={resetSession}
+                      className="w-full bg-purple-500 text-white py-5 rounded-3xl font-black flex items-center justify-center gap-3 hover:bg-purple-600 transition-all shadow-xl uppercase tracking-widest"
+                    >
+                      <Plus size={20} /> START NEW QUIZ
+                    </button>
+                  )}
+                  <p className="text-white/20 font-black uppercase tracking-widest text-xs">
+                    Thank you for playing. Drive safely!
+                  </p>
+                </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </main>
+      {/* Share Modal */}
+      <AnimatePresence>
+        {showShareModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowShareModal(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative bg-[#1A0B2E] border border-white/10 p-8 rounded-[2.5rem] shadow-2xl max-w-lg w-full space-y-6"
+            >
+              <div className="text-center space-y-2">
+                <div className="bg-purple-500/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <LinkIcon className="text-purple-400 w-8 h-8" />
+                </div>
+                <h3 className="text-3xl font-black tracking-tighter">Share Your Quiz</h3>
+                <p className="text-purple-300/60 serif italic">
+                  Send this link to your friends to let them join the session!
+                </p>
+              </div>
+
+              <div className="bg-black/40 p-6 rounded-2xl border border-white/5 space-y-4">
+                <div className="flex flex-col space-y-2">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-purple-300/40">Direct Quiz Link</span>
+                  <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10">
+                    <code className="text-xs font-mono text-purple-300 truncate flex-1">
+                      {window.location.origin}{sessionId ? `?session=${sessionId}` : ""}
+                    </code>
+                    <button
+                      onClick={() => {
+                        const link = `${window.location.origin}${sessionId ? `?session=${sessionId}` : ""}`;
+                        navigator.clipboard.writeText(link);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      }}
+                      className="bg-white text-black px-3 py-1.5 rounded-lg text-[10px] font-black uppercase hover:scale-105 transition-all shrink-0"
+                    >
+                      {copied ? "COPIED" : "COPY"}
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="p-4 bg-amber-500/10 rounded-xl border border-amber-500/20 flex gap-3">
+                  <AlertCircle className="text-amber-500 shrink-0" size={20} />
+                  <p className="text-xs text-amber-200/80 leading-relaxed">
+                    <span className="font-bold text-amber-400">Important:</span> Do not copy the link from your browser's address bar if you are in AI Studio. Use the link above to ensure users open the quiz directly.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowShareModal(false)}
+                className="w-full bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-black transition-all"
+              >
+                CLOSE
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Update Toast */}
       <AnimatePresence>
         {showUpdateToast && (
