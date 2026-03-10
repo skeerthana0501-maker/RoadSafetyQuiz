@@ -16,6 +16,12 @@ const app = express();
 const server = createServer(app);
 const wss = new WebSocketServer({ server });
 const PORT = 3000;
+const VERSION = "1.1.1-20260310-0145";
+
+// API routes go here
+app.get("/api/version", (req, res) => {
+  res.json({ version: VERSION });
+});
 
 // Initialize AI
 const getAI = () => {
@@ -138,8 +144,9 @@ function revealAnswer() {
   setTimeout(nextStep, 5000);
 }
 
-wss.on("connection", (ws) => {
-  const userId = Math.random().toString(36).substring(7);
+wss.on("connection", (ws, req) => {
+  const url = new URL(req.url || "", `http://${req.headers.host}`);
+  const userId = url.searchParams.get("userId") || Math.random().toString(36).substring(7);
   
   ws.send(JSON.stringify({ 
     type: "init", 
@@ -155,11 +162,22 @@ wss.on("connection", (ws) => {
 
     switch (message.type) {
       case "claim_organizer":
-        // Only allow claiming if no organizer exists OR if explicitly requested via host flag
-        if (message.host === true || !organizerId) {
+        const hostPassword = process.env.HOST_PASSWORD || "admin123";
+        if (message.password === hostPassword) {
           organizerId = userId;
           ws.send(JSON.stringify({ type: "organizer_confirmed", isOrganizer: true }));
           broadcast({ type: "user_list", users: Array.from(users.values()) });
+        } else {
+          ws.send(JSON.stringify({ type: "error", message: "Invalid host password." }));
+        }
+        break;
+
+      case "verify_password":
+        const verifyPassword = process.env.HOST_PASSWORD || "admin123";
+        if (message.password === verifyPassword) {
+          ws.send(JSON.stringify({ type: "password_verified", success: true }));
+        } else {
+          ws.send(JSON.stringify({ type: "password_verified", success: false }));
         }
         break;
 

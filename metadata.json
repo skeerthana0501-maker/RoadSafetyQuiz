@@ -1,5 +1,5 @@
 {
-  "name": "AI Real-time Quiz Arena",
-  "description": "A collaborative multi-user quiz application with real-time scoring and AI-generated questions.",
+  "name": "RoadSafety Quest",
+  "description": "A collaborative multi-user quiz application focused on road safety with real-time scoring.",
   "requestFramePermissions": []
 }

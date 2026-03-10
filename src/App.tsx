@@ -24,11 +24,17 @@ interface ActiveQuestion {
 }
 
 const BackgroundAnimation = () => (
-  <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/20 blur-[120px] animate-pulse" />
-    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-600/20 blur-[120px] animate-pulse [animation-delay:2s]" />
-    <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] rounded-full bg-fuchsia-600/10 blur-[100px] animate-pulse [animation-delay:4s]" />
-    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+  <div className="fixed inset-0 -z-10 overflow-hidden">
+    <div 
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={{ 
+        backgroundImage: `url('https://images.unsplash.com/photo-1515549832467-8783363e19b6?auto=format&fit=crop&q=80&w=2000')`,
+        filter: 'brightness(0.4) saturate(1.1)'
+      }}
+    />
+    <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
+    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
   </div>
 );
 
@@ -79,6 +85,43 @@ export default function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [topic, setTopic] = useState("");
   const [showStopConfirm, setShowStopConfirm] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [hostPassword, setHostPassword] = useState("");
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [showHostAuth, setShowHostAuth] = useState(false);
+  const [hostAuthPassword, setHostAuthPassword] = useState("");
+  const [hostAuthError, setHostAuthError] = useState(false);
+  const [showUpdateToast, setShowUpdateToast] = useState(false);
+  const currentVersion = "1.1.1-20260310-0145";
+
+  // Check for updates
+  useEffect(() => {
+    const checkVersion = async () => {
+      try {
+        const res = await fetch("/api/version");
+        const data = await res.json();
+        if (data.version && data.version !== currentVersion) {
+          setShowUpdateToast(true);
+        }
+      } catch (err) {
+        console.warn("Version check failed", err);
+      }
+    };
+
+    const interval = setInterval(checkVersion, 30000); // Check every 30s
+    return () => clearInterval(interval);
+  }, []);
+
+  // Check for completion on session ID change
+  useEffect(() => {
+    if (sessionId) {
+      const completed = localStorage.getItem(`quiz_completed_${sessionId}`);
+      if (completed === "true" && !isUnlocked) {
+        setShowPasswordPrompt(true);
+      }
+    }
+  }, [sessionId, isUnlocked]);
 
   // Persist session info
   useEffect(() => {
@@ -109,7 +152,14 @@ export default function App() {
       const urlSessionId = params.get("session");
       const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
       
-      ws = new WebSocket(`${protocol}//${window.location.host}`);
+      // Persist userId
+      let storedUserId = sessionStorage.getItem("quiz_user_id");
+      const wsUrl = new URL(`${protocol}//${window.location.host}`);
+      if (storedUserId) {
+        wsUrl.searchParams.set("userId", storedUserId);
+      }
+      
+      ws = new WebSocket(wsUrl.toString());
 
       ws.onopen = () => {
         console.log("Connected to server");
@@ -121,6 +171,7 @@ export default function App() {
         switch (data.type) {
           case "init":
             setUserId(data.userId);
+            sessionStorage.setItem("quiz_user_id", data.userId);
             setIsOrganizer(data.isOrganizer);
             setQuizState(data.state);
             setConfig(data.config);
@@ -130,9 +181,9 @@ export default function App() {
             const hasSession = urlParams.has("session");
             const isHost = urlParams.get("host") === "true";
 
-            // Automatically claim organizer if no one has it and we aren't joining a specific session
-            if (!data.isOrganizer && !hasSession) {
-              ws?.send(JSON.stringify({ type: "claim_organizer", host: isHost }));
+            // If we have a host flag in URL, show the host auth prompt automatically
+            if (isHost && !data.isOrganizer) {
+              setShowHostAuth(true);
             }
 
             // If we are the organizer and had the host flag, clean up the URL
@@ -149,6 +200,17 @@ export default function App() {
             break;
           case "organizer_confirmed":
             setIsOrganizer(data.isOrganizer);
+            setShowHostAuth(false);
+            break;
+          case "password_verified":
+            if (data.success) {
+              setIsUnlocked(true);
+              setShowPasswordPrompt(false);
+              setPasswordError(false);
+            } else {
+              setPasswordError(true);
+              setTimeout(() => setPasswordError(false), 2000);
+            }
             break;
           case "joined":
             setIsJoined(true);
@@ -197,6 +259,9 @@ export default function App() {
           case "quiz_end":
             setQuizState("leaderboard");
             setUsers(data.leaderboard);
+            if (sessionId) {
+              localStorage.setItem(`quiz_completed_${sessionId}`, "true");
+            }
             confetti({
               particleCount: 150,
               spread: 70,
@@ -208,7 +273,12 @@ export default function App() {
             window.location.href = window.location.origin;
             break;
           case "error":
-            setError(data.message);
+            if (data.message === "Invalid host password.") {
+              setHostAuthError(true);
+              setTimeout(() => setHostAuthError(false), 3000);
+            } else {
+              setError(data.message);
+            }
             setIsGenerating(false);
             break;
         }
@@ -299,6 +369,67 @@ export default function App() {
     }
   };
 
+  const handlePasswordSubmit = () => {
+    if (socket && hostPassword.trim()) {
+      socket.send(JSON.stringify({ type: "verify_password", password: hostPassword }));
+    }
+  };
+
+  const handleHostAuthSubmit = () => {
+    if (socket && hostAuthPassword.trim()) {
+      socket.send(JSON.stringify({ type: "claim_organizer", password: hostAuthPassword }));
+      setHostAuthPassword("");
+    }
+  };
+
+  if (showPasswordPrompt && !isUnlocked) {
+    return (
+      <div className="min-h-screen bg-[#1A0B2E] flex items-center justify-center p-4 font-sans text-white">
+        <BackgroundAnimation />
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white/10 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white/20 text-center space-y-8"
+        >
+          <div className="bg-purple-500/20 p-5 rounded-3xl w-20 h-20 flex items-center justify-center mx-auto">
+            <LogIn className="text-purple-400 w-10 h-10" />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-3xl font-black tracking-tighter uppercase">Host Access Required</h2>
+            <p className="text-purple-300/50 serif italic">This quiz has concluded. Enter host password to view results.</p>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="space-y-2 text-left">
+              <label className="block text-[10px] font-black uppercase tracking-widest text-purple-300/30 ml-2">Host Password</label>
+              <input
+                type="password"
+                value={hostPassword}
+                onChange={(e) => setHostPassword(e.target.value)}
+                placeholder="Enter password..."
+                className={`w-full px-6 py-4 rounded-2xl bg-white/5 border ${passwordError ? 'border-red-500' : 'border-white/10'} text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all`}
+                onKeyDown={(e) => e.key === "Enter" && handlePasswordSubmit()}
+              />
+              {passwordError && <p className="text-red-400 text-[10px] font-black uppercase tracking-widest ml-2">Incorrect Password</p>}
+            </div>
+            <button
+              onClick={handlePasswordSubmit}
+              className="w-full bg-white text-black py-5 rounded-2xl font-black hover:scale-[1.02] transition-all uppercase tracking-widest"
+            >
+              Unlock Results
+            </button>
+            <button
+              onClick={() => window.location.href = window.location.origin}
+              className="w-full bg-transparent text-purple-300/50 py-2 rounded-2xl font-bold text-xs hover:text-purple-300 transition-all"
+            >
+              Back to Home
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
   const addQuestion = () => {
     setManualQuestions([...manualQuestions, { 
       text: "", 
@@ -331,23 +462,23 @@ export default function App() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#1A0B2E] flex items-center justify-center p-4 font-sans text-white">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4 font-sans text-white">
         <BackgroundAnimation />
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white/10 backdrop-blur-xl p-12 rounded-[3rem] border border-white/10 shadow-2xl max-w-md text-center space-y-6"
+          className="bg-red-600 p-12 rounded-[2rem] border-4 border-white shadow-2xl max-w-md text-center space-y-6"
         >
-          <div className="bg-rose-500/20 p-6 rounded-full w-20 h-20 flex items-center justify-center mx-auto">
-            <XCircle className="text-rose-500 w-10 h-10" />
+          <div className="bg-white p-6 rounded-full w-20 h-20 flex items-center justify-center mx-auto">
+            <XCircle className="text-red-600 w-10 h-10" />
           </div>
-          <h2 className="text-3xl font-black tracking-tighter">Session Ended</h2>
-          <p className="text-purple-300/60 serif italic">{error}</p>
+          <h2 className="text-3xl font-black tracking-tighter uppercase">Road Closed</h2>
+          <p className="text-white font-bold italic">{error}</p>
           <button
             onClick={() => window.location.href = window.location.origin}
-            className="w-full bg-white text-black py-4 rounded-2xl font-black hover:scale-[1.02] transition-all"
+            className="w-full bg-white text-black py-4 rounded-xl font-black hover:scale-[1.02] transition-all border-2 border-black"
           >
-            BACK TO HOME
+            BACK TO START
           </button>
         </motion.div>
       </div>
@@ -479,13 +610,44 @@ export default function App() {
               <div className="pt-8 border-t border-white/5">
                 {!new URLSearchParams(window.location.search).has("session") && (
                   <>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-4">Are you the host?</p>
-                    <a 
-                      href={`${window.location.origin}?host=true`}
-                      className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-bold transition-colors"
-                    >
-                      <Crown size={16} /> Enter Setup Mode
-                    </a>
+                    {!showHostAuth ? (
+                      <>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-4">Are you the host?</p>
+                        <button 
+                          onClick={() => setShowHostAuth(true)}
+                          className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-bold transition-colors"
+                        >
+                          <Crown size={16} /> Enter Setup Mode
+                        </button>
+                      </>
+                    ) : (
+                      <div className="space-y-4 max-w-xs mx-auto">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Host Authentication</p>
+                        <div className="flex gap-2">
+                          <input
+                            type="password"
+                            value={hostAuthPassword}
+                            onChange={(e) => setHostAuthPassword(e.target.value)}
+                            placeholder="Host Password"
+                            className={`bg-white/5 border ${hostAuthError ? 'border-red-500' : 'border-white/10'} rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 w-full transition-colors`}
+                            onKeyDown={(e) => e.key === "Enter" && handleHostAuthSubmit()}
+                          />
+                          <button
+                            onClick={handleHostAuthSubmit}
+                            className="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-xl text-xs font-black transition-all"
+                          >
+                            VERIFY
+                          </button>
+                        </div>
+                        {hostAuthError && <p className="text-red-400 text-[10px] font-black uppercase tracking-widest animate-pulse">Invalid Password</p>}
+                        <button
+                          onClick={() => setShowHostAuth(false)}
+                          className="text-[10px] font-bold text-white/20 hover:text-white/40 uppercase tracking-widest"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
                   </>
                 )}
               </div>
@@ -508,7 +670,7 @@ export default function App() {
               <Trophy className="text-white w-10 h-10" />
             </div>
           </div>
-          <h1 className="text-4xl font-black text-center mb-2 text-white tracking-tight">QUIZ MASTER</h1>
+          <h1 className="text-4xl font-black text-center mb-2 text-white tracking-tight">ROAD SAFETY QUIZ</h1>
           <p className="text-center text-purple-200/60 mb-10 serif italic">Enter your name to join</p>
 
           <div className="space-y-6">
@@ -526,9 +688,9 @@ export default function App() {
             <button
               onClick={joinGame}
               disabled={!name.trim()}
-              className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all disabled:opacity-50 active:scale-95"
+              className="w-full bg-emerald-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all disabled:opacity-50 active:scale-95 border-b-4 border-emerald-700 shadow-lg uppercase tracking-widest"
             >
-              JOIN SESSION <LogIn size={20} />
+              Start Journey <LogIn size={20} />
             </button>
           </div>
         </motion.div>
@@ -541,66 +703,68 @@ export default function App() {
       <BackgroundAnimation />
       
       {/* Header */}
-      <header className="bg-[#2D1B69]/80 backdrop-blur-md border-b border-white/5 px-8 py-5 flex items-center justify-between sticky top-0 z-50">
-        <div className="flex items-center gap-4">
-          <div className="bg-gradient-to-br from-purple-400 to-indigo-600 p-2.5 rounded-xl shadow-inner">
-            <Trophy className="text-white w-5 h-5" />
+      {quizState !== "leaderboard" && (
+        <header className="bg-black/40 backdrop-blur-md border-b-4 border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-50">
+          <div className="flex items-center gap-4">
+            <div className="bg-yellow-500 p-2.5 rounded-xl shadow-lg border-2 border-black">
+              <Trophy className="text-black w-5 h-5" />
+            </div>
+            <span className="font-black text-2xl tracking-tighter text-white uppercase">
+              RoadSafety Quest
+            </span>
           </div>
-          <span className="font-black text-2xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-300">
-            QUIZ MASTER
-          </span>
-        </div>
 
-        <div className="flex items-center gap-8">
-          {isOrganizer && (quizState === "question" || quizState === "answer") && (
-            <div className="relative">
-              <button
-                onClick={() => setShowStopConfirm(!showStopConfirm)}
-                className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-4 py-2 rounded-xl text-xs font-black border border-rose-500/20 transition-all flex items-center gap-2"
-              >
-                <XCircle size={14} /> STOP SESSION
-              </button>
-              
-              <AnimatePresence>
-                {showStopConfirm && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute top-full right-0 mt-4 w-64 bg-white p-6 rounded-[2rem] shadow-2xl border border-purple-100 z-[60] text-black"
-                  >
-                    <p className="font-black text-sm mb-4 leading-tight">End the session early for everyone?</p>
-                    <div className="flex flex-col gap-2">
-                      <button
-                        onClick={stopQuiz}
-                        className="w-full bg-rose-500 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-rose-600 transition-all"
-                      >
-                        YES, STOP NOW
-                      </button>
-                      <button
-                        onClick={() => setShowStopConfirm(false)}
-                        className="w-full bg-slate-100 text-slate-600 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-200 transition-all"
-                      >
-                        CANCEL
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+          <div className="flex items-center gap-8">
+            {isOrganizer && (quizState === "question" || quizState === "answer") && (
+              <div className="relative">
+                <button
+                  onClick={() => setShowStopConfirm(!showStopConfirm)}
+                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl text-xs font-black border-2 border-white transition-all flex items-center gap-2 shadow-lg"
+                >
+                  <XCircle size={14} /> STOP
+                </button>
+                
+                <AnimatePresence>
+                  {showStopConfirm && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute top-full right-0 mt-4 w-64 bg-white p-6 rounded-3xl shadow-2xl border-4 border-red-600 z-[60] text-black"
+                    >
+                      <p className="font-black text-sm mb-4 leading-tight uppercase">End session for all?</p>
+                      <div className="flex flex-col gap-2">
+                        <button
+                          onClick={stopQuiz}
+                          className="w-full bg-red-600 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-red-700 transition-all border-2 border-black"
+                        >
+                          YES, STOP
+                        </button>
+                        <button
+                          onClick={() => setShowStopConfirm(false)}
+                          className="w-full bg-slate-100 text-slate-600 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-200 transition-all"
+                        >
+                          CANCEL
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+            <div className="flex items-center gap-3 bg-blue-600 px-4 py-2 rounded-2xl border-2 border-white shadow-lg">
+              <Users size={18} className="text-white" />
+              <span className="text-sm font-black text-white">{users.length}</span>
             </div>
-          )}
-          <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-2xl border border-white/10">
-            <Users size={18} className="text-purple-400" />
-            <span className="text-sm font-black">{users.length}</span>
+            {quizState === "question" && (
+              <div className="flex items-center gap-3 bg-emerald-500 text-white px-5 py-2 rounded-2xl shadow-lg border-2 border-white">
+                <Timer size={18} className="text-white" />
+                <span className="text-sm font-mono font-black">{timer}s</span>
+              </div>
+            )}
           </div>
-          {quizState === "question" && (
-            <div className="flex items-center gap-3 bg-white text-black px-5 py-2 rounded-2xl shadow-lg">
-              <Timer size={18} className="text-purple-600" />
-              <span className="text-sm font-mono font-black">{timer}s</span>
-            </div>
-          )}
-        </div>
-      </header>
+        </header>
+      )}
 
       {/* Timer Progress Bar */}
       {quizState === "question" && (
@@ -664,9 +828,9 @@ export default function App() {
 
                       <button
                         onClick={startQuiz}
-                        className="w-full bg-white text-black py-6 rounded-[2rem] font-black text-xl flex items-center justify-center gap-4 hover:scale-[1.02] active:scale-95 transition-all shadow-[0_20px_50px_rgba(255,255,255,0.1)]"
+                        className="w-full bg-emerald-500 text-white py-6 rounded-[2rem] font-black text-xl flex items-center justify-center gap-4 hover:bg-emerald-600 active:scale-95 transition-all shadow-2xl border-b-8 border-emerald-700 uppercase tracking-tighter"
                       >
-                        <Play fill="black" size={24} /> START SESSION NOW
+                        <Play fill="white" size={24} /> GO! Start Session
                       </button>
                     </div>
                   ) : (
@@ -729,53 +893,65 @@ export default function App() {
               className="space-y-12 py-10"
             >
               <div className="text-center space-y-6">
-                <div className="inline-block bg-white/5 px-6 py-2 rounded-full border border-white/10">
-                  <span className="text-xs font-black uppercase tracking-[0.3em] text-purple-300/50">
+                <motion.div 
+                  initial={{ rotate: -2, scale: 0.9 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  className="bg-yellow-400 text-black px-12 py-12 rounded-[3rem] border-8 border-black shadow-2xl max-w-4xl mx-auto relative overflow-hidden"
+                >
+                  <div className="absolute top-0 left-0 w-full h-2 bg-black/10" />
+                  <span className="text-xs font-black uppercase tracking-[0.3em] text-black/40 block mb-4">
                     Question {currentQuestion.index + 1} of {currentQuestion.total}
                   </span>
-                </div>
-                <h2 className="text-5xl md:text-6xl font-black leading-[1.1] tracking-tighter max-w-4xl mx-auto">
-                  {currentQuestion.text}
-                </h2>
+                  <h2 className="text-4xl md:text-5xl font-black leading-tight tracking-tighter uppercase">
+                    {currentQuestion.text}
+                  </h2>
+                </motion.div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {currentQuestion.options.map((option, idx) => {
                   const isCorrect = correctAnswer === idx;
                   const isSelected = selectedAnswer === idx;
                   const isWrong = quizState === "answer" && isSelected && !isCorrect;
+                  
+                  const signColors = [
+                    "bg-red-600 border-red-800",
+                    "bg-blue-600 border-blue-800",
+                    "bg-emerald-600 border-emerald-800",
+                    "bg-orange-500 border-orange-700"
+                  ];
 
                   return (
                     <motion.button
-                      whileHover={quizState === "question" && selectedAnswer === null ? { scale: 1.02, y: -4 } : {}}
+                      whileHover={quizState === "question" && selectedAnswer === null ? { scale: 1.02, rotate: 1 } : {}}
                       whileTap={quizState === "question" && selectedAnswer === null ? { scale: 0.98 } : {}}
                       key={idx}
                       onClick={() => submitAnswer(idx)}
                       disabled={selectedAnswer !== null || quizState === "answer"}
                       className={`
-                        relative p-8 rounded-[2.5rem] text-left transition-all border-2 flex items-center justify-between group shadow-xl
+                        relative p-8 rounded-[2rem] text-left transition-all border-4 flex items-center justify-between group shadow-2xl
                         ${quizState === "question"
                           ? isSelected
-                            ? "bg-white text-black border-white"
-                            : "bg-white/5 border-white/5 hover:border-white/20 hover:bg-white/10"
+                            ? "bg-white text-black border-black scale-105 z-10"
+                            : `${signColors[idx % 4]} text-white hover:brightness-110`
                           : isCorrect
-                            ? "bg-emerald-500 text-white border-emerald-400"
+                            ? "bg-emerald-500 text-white border-white scale-105 z-10"
                             : isWrong
-                              ? "bg-rose-500 text-white border-rose-400"
-                              : "bg-white/5 border-white/5 opacity-30"
+                              ? "bg-red-600 text-white border-white"
+                              : "bg-black/40 border-white/10 opacity-20"
                         }
                       `}
                     >
                       <div className="flex items-center gap-6">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl border ${
-                          isSelected ? "bg-black/10 border-black/10" : "bg-white/10 border-white/10"
+                        <div className={`w-14 h-14 rounded-full flex items-center justify-center font-black text-2xl border-4 ${
+                          isSelected ? "bg-black text-white border-black" : "bg-white text-black border-black"
                         }`}>
                           {String.fromCharCode(65 + idx)}
                         </div>
-                        <span className="text-2xl font-bold tracking-tight">{option}</span>
+                        <span className="text-2xl font-black uppercase tracking-tight">{option}</span>
                       </div>
-                      {quizState === "answer" && isCorrect && <CheckCircle2 size={32} />}
-                      {quizState === "answer" && isWrong && <XCircle size={32} />}
+                      {quizState === "answer" && isCorrect && <CheckCircle2 size={40} className="text-white" />}
+                      {quizState === "answer" && isWrong && <XCircle size={40} className="text-white" />}
                     </motion.button>
                   );
                 })}
@@ -815,70 +991,85 @@ export default function App() {
               key="leaderboard"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white/5 backdrop-blur-2xl p-12 rounded-[4rem] border border-white/10 shadow-2xl max-w-3xl mx-auto"
+              className="bg-white/10 backdrop-blur-2xl p-16 rounded-[4rem] border-8 border-white/20 shadow-2xl max-w-3xl mx-auto text-center"
             >
-              <div className="text-center mb-16">
+              <div className="mb-16">
                 <motion.div 
-                  animate={{ rotate: [0, -10, 10, 0] }}
-                  transition={{ repeat: Infinity, duration: 4 }}
-                  className="inline-block bg-gradient-to-br from-yellow-400 to-orange-600 p-8 rounded-[3rem] mb-8 shadow-[0_0_50px_rgba(234,179,8,0.3)]"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                  className="inline-block bg-emerald-500 p-10 rounded-full mb-10 shadow-[0_0_60px_rgba(16,185,129,0.4)] border-4 border-white"
                 >
-                  <Trophy className="text-white w-16 h-16" />
+                  <CheckCircle2 className="text-white w-20 h-20" />
                 </motion.div>
-                <h2 className="text-6xl font-black tracking-tighter mb-4">The Hall of Fame</h2>
-                <p className="text-purple-300/50 serif italic text-xl">Behold the champions of this session</p>
+                <h2 className="text-8xl font-black tracking-tighter mb-4 uppercase">Quiz Done!</h2>
+                <p className="text-emerald-400 font-black italic text-3xl tracking-tight">You've reached the destination.</p>
               </div>
 
-              <div className="space-y-6">
-                {users.map((u, idx) => (
-                  <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    key={u.id}
-                    className={`flex items-center justify-between p-8 rounded-[2.5rem] border transition-all ${
-                      idx === 0 
-                        ? "bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-500/50 scale-105 shadow-2xl" 
-                        : "bg-white/5 border-white/5"
-                    }`}
-                  >
-                    <div className="flex items-center gap-8">
-                      <div className="flex items-center gap-4 w-12">
-                        {idx === 0 && <Crown className="text-yellow-400 w-8 h-8" />}
-                        <span className={`text-4xl font-black ${
-                          idx === 0 ? "text-yellow-400" : idx === 1 ? "text-slate-300" : idx === 2 ? "text-orange-400" : "text-white/10"
-                        }`}>
-                          #{idx + 1}
-                        </span>
-                      </div>
-                      <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-indigo-600 rounded-3xl flex items-center justify-center text-white text-2xl font-black shadow-xl">
-                        {u.name[0].toUpperCase()}
-                      </div>
-                      <div>
-                        <span className="font-black text-2xl block tracking-tight">{u.name}</span>
-                        {u.id === userId && <span className="text-[10px] font-black bg-white text-black px-3 py-1 rounded-full uppercase tracking-widest">Champion</span>}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-4xl font-mono font-black tracking-tighter">{u.score}</div>
-                      <div className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-300/30">Total Points</div>
-                    </div>
-                  </motion.div>
-                ))}
+              <div className="space-y-8 max-w-xl mx-auto">
+                <div className="bg-white/5 p-10 rounded-[3rem] border-4 border-white/10">
+                  <p className="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-8">Final Standings</p>
+                  <div className="space-y-6">
+                    {users.slice(0, 5).map((u, idx) => (
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        key={u.id}
+                        className={`flex items-center justify-between p-6 rounded-3xl border-2 ${
+                          idx === 0 
+                            ? "bg-yellow-500 text-black border-white scale-105 shadow-2xl" 
+                            : "bg-white/5 border-white/10 text-white"
+                        }`}
+                      >
+                        <div className="flex items-center gap-6">
+                          <span className="text-3xl font-black w-10">#{idx + 1}</span>
+                          <span className="text-2xl font-black tracking-tight">{u.name}</span>
+                        </div>
+                        <span className="text-3xl font-mono font-black">{u.score}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+                
+                <p className="text-white/20 font-black uppercase tracking-widest text-xs pt-8">
+                  Thank you for playing. Drive safely!
+                </p>
               </div>
-
-              {isOrganizer && (
-                <button
-                  onClick={resetSession}
-                  className="w-full mt-16 bg-white text-black py-6 rounded-[2rem] font-black text-xl hover:scale-[1.02] active:scale-95 transition-all shadow-xl"
-                >
-                  NEW SESSION
-                </button>
-              )}
             </motion.div>
           )}
         </AnimatePresence>
       </main>
+      {/* Update Toast */}
+      <AnimatePresence>
+        {showUpdateToast && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-white text-black px-6 py-4 rounded-2xl shadow-2xl border-2 border-purple-500 flex items-center gap-4"
+          >
+            <div className="bg-purple-500/10 p-2 rounded-lg">
+              <Sparkles className="text-purple-600 w-5 h-5" />
+            </div>
+            <div className="text-left">
+              <p className="font-black text-xs uppercase tracking-widest">Update Available</p>
+              <p className="text-[10px] text-slate-500 font-bold">New features are ready for you!</p>
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-black text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all"
+            >
+              Refresh Now
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Footer / Version Tracking */}
+      <footer className="max-w-5xl mx-auto px-8 py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 opacity-30 hover:opacity-100 transition-opacity">
+        <p className="text-[10px] font-black uppercase tracking-[0.3em]">RoadSafety Quest v1.1.0</p>
+        <p className="text-[10px] font-mono">Last Updated: 2026-03-10 01:45:09</p>
+      </footer>
     </div>
   );
 }
