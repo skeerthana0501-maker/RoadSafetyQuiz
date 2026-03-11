@@ -57,6 +57,8 @@ let currentQuestionIndex = -1;
 let quizState: "setup" | "joining" | "question" | "answer" | "leaderboard" = "setup";
 let timerValue = 0;
 let timerInterval: NodeJS.Timeout | null = null;
+let userListBroadcastTimeout: NodeJS.Timeout | null = null;
+
 let config = {
   numQuestions: 5,
   numOptions: 4,
@@ -70,6 +72,18 @@ function broadcast(data: any) {
       client.send(message);
     }
   });
+}
+
+function broadcastUserList() {
+  if (userListBroadcastTimeout) return;
+  
+  userListBroadcastTimeout = setTimeout(() => {
+    broadcast({ 
+      type: "user_list", 
+      users: Array.from(users.values()).map(u => ({ id: u.id, name: u.name, score: u.score }))
+    });
+    userListBroadcastTimeout = null;
+  }, 300); // Batch updates every 300ms
 }
 
 function startTimer(duration: number, onComplete: () => void) {
@@ -166,7 +180,7 @@ wss.on("connection", (ws, req) => {
         if (message.password === hostPassword) {
           organizerId = userId;
           ws.send(JSON.stringify({ type: "organizer_confirmed", isOrganizer: true }));
-          broadcast({ type: "user_list", users: Array.from(users.values()) });
+          broadcastUserList();
         } else {
           ws.send(JSON.stringify({ type: "error", message: "Invalid host password." }));
         }
@@ -212,7 +226,7 @@ wss.on("connection", (ws, req) => {
         
         users.set(userId, { id: userId, name: message.name, score: 0 });
         ws.send(JSON.stringify({ type: "joined", userId, isOrganizer: userId === organizerId }));
-        broadcast({ type: "user_list", users: Array.from(users.values()) });
+        broadcastUserList();
         break;
 
       case "start_quiz":
@@ -321,7 +335,7 @@ wss.on("connection", (ws, req) => {
     if (userId === organizerId) {
       organizerId = null;
     }
-    broadcast({ type: "user_list", users: Array.from(users.values()) });
+    broadcastUserList();
   });
 });
 
