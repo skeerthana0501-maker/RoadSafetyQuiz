@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Users, Timer, Trophy, Play, CheckCircle2, XCircle, ChevronRight, Settings, Plus, Trash2, Save, LogIn, Sparkles, Crown, Link as LinkIcon, Copy, AlertCircle } from "lucide-react";
+import { Users, Timer, Trophy, Play, CheckCircle2, XCircle, ChevronRight, Settings, Plus, Trash2, Save, LogIn, Sparkles, Crown, Link as LinkIcon, Copy, AlertCircle, Car, TrafficCone, Map as MapIcon, Navigation, ShieldCheck, Flag } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface User {
@@ -23,18 +23,72 @@ interface ActiveQuestion {
   total: number;
 }
 
+const RoadAnimation = () => (
+  <div className="fixed inset-0 -z-5 pointer-events-none overflow-hidden opacity-20">
+    <motion.div 
+      initial={{ x: "-100%" }}
+      animate={{ x: "200%" }}
+      transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+      className="absolute top-1/4 text-white/20"
+    >
+      <Car size={120} />
+    </motion.div>
+    <motion.div 
+      initial={{ x: "200%" }}
+      animate={{ x: "-200%" }}
+      transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 5 }}
+      className="absolute bottom-1/4 text-white/10"
+    >
+      <Car size={80} className="scale-x-[-1]" />
+    </motion.div>
+    <div className="absolute top-1/2 left-0 right-0 h-1 bg-white/5 border-t border-b border-dashed border-white/10" />
+  </div>
+);
+
+const RoadSignPattern = () => {
+  const signs = [TrafficCone, ShieldCheck, Navigation, MapIcon, AlertCircle, Car, Flag];
+  return (
+    <div className="absolute inset-0 opacity-20 pointer-events-none grid grid-cols-4 md:grid-cols-8 gap-16 p-10 overflow-hidden">
+      {Array.from({ length: 64 }).map((_, i) => {
+        const Icon = signs[i % signs.length];
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: i * 0.01 }}
+            className="text-white/40"
+          >
+            <Icon size={48} className={i % 2 === 0 ? "rotate-12" : "-rotate-12"} />
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+};
+
+const TrafficLight = () => (
+  <div className="flex flex-col gap-1 bg-black/40 p-1.5 rounded-lg border border-white/10 shadow-lg">
+    <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)] animate-pulse" />
+    <div className="w-3 h-3 rounded-full bg-yellow-500 opacity-30" />
+    <div className="w-3 h-3 rounded-full bg-emerald-500 opacity-30" />
+  </div>
+);
+
 const BackgroundAnimation = () => (
-  <div className="fixed inset-0 -z-10 overflow-hidden">
+  <div className="fixed inset-0 -z-10 overflow-hidden bg-[#050505]">
     <div 
-      className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70"
       style={{ 
-        backgroundImage: `url('https://images.unsplash.com/photo-1515549832467-8783363e19b6?auto=format&fit=crop&q=80&w=2000')`,
-        filter: 'brightness(0.4) saturate(1.1)'
+        backgroundImage: `url('https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=2000')`,
+        filter: 'brightness(0.4) saturate(1.3) contrast(1.2)'
       }}
     />
-    <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
-    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
-    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
+    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.6)_100%)]" />
+    <RoadSignPattern />
+    <RoadAnimation />
+    <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
   </div>
 );
 
@@ -102,7 +156,39 @@ export default function App() {
   const [hostAuthError, setHostAuthError] = useState(false);
   const [showUpdateToast, setShowUpdateToast] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const audioRef = useRef<{ correct: HTMLAudioElement | null, incorrect: HTMLAudioElement | null }>({ correct: null, incorrect: null });
   const currentVersion = "1.1.1-20260310-0145";
+
+  useEffect(() => {
+    // Using extremely reliable sound URLs
+    audioRef.current.correct = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+    audioRef.current.incorrect = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
+    
+    // Set volumes
+    if (audioRef.current.correct) audioRef.current.correct.volume = 0.5;
+    if (audioRef.current.incorrect) audioRef.current.incorrect.volume = 0.5;
+  }, []);
+
+  const [isSoundEnabled, setIsSoundEnabled] = useState(true);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
+  const playSound = (type: 'correct' | 'incorrect') => {
+    if (!isSoundEnabled) return;
+    const sound = audioRef.current[type];
+    if (sound) {
+      sound.currentTime = 0;
+      sound.play().catch(() => {}); // Ignore autoplay errors
+    }
+  };
 
   // Check for updates
   useEffect(() => {
@@ -264,6 +350,14 @@ export default function App() {
             setQuizState("answer");
             setCorrectAnswer(data.correctAnswer);
             setUsers(data.leaderboard);
+            
+            // Play sound based on user's answer
+            const currentUser = data.leaderboard.find((u: any) => u.id === userId);
+            if (currentUser && currentUser.answeredCorrectly) {
+              playSound('correct');
+            } else if (selectedAnswer !== null) {
+              playSound('incorrect');
+            }
             break;
           case "quiz_end":
             setQuizState("leaderboard");
@@ -742,13 +836,21 @@ export default function App() {
                 onKeyDown={(e) => e.key === "Enter" && joinGame()}
               />
             </div>
-            <button
-              onClick={joinGame}
-              disabled={!name.trim()}
-              className="w-full bg-emerald-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all disabled:opacity-50 active:scale-95 border-b-4 border-emerald-700 shadow-lg uppercase tracking-widest"
-            >
-              Start Journey <LogIn size={20} />
-            </button>
+            <div className="flex flex-col gap-4">
+              <button
+                onClick={joinGame}
+                disabled={!name.trim()}
+                className="w-full bg-emerald-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all disabled:opacity-50 active:scale-95 border-b-4 border-emerald-700 shadow-lg uppercase tracking-widest"
+              >
+                Start Journey <LogIn size={20} />
+              </button>
+              <button
+                onClick={() => playSound('correct')}
+                className="text-[10px] font-black text-white/20 hover:text-white/40 uppercase tracking-widest flex items-center justify-center gap-2"
+              >
+                <AlertCircle size={12} /> Test Sound
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>
@@ -764,14 +866,53 @@ export default function App() {
         <header className="bg-black/40 backdrop-blur-md border-b-4 border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-50">
           <div className="flex items-center gap-4">
             <div className="bg-yellow-500 p-2.5 rounded-xl shadow-lg border-2 border-black">
-              <Trophy className="text-black w-5 h-5" />
+              <Car className="text-black w-5 h-5" />
             </div>
-            <span className="font-black text-2xl tracking-tighter text-white uppercase">
-              RoadSafety Quest
-            </span>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-3">
+                <span className="font-black text-2xl tracking-tighter text-white uppercase leading-none italic">
+                  RoadSense <span className="text-yellow-400">Quest</span>
+                </span>
+                <TrafficLight />
+              </div>
+              {isJoined && (
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="h-1.5 w-24 bg-white/10 rounded-full overflow-hidden">
+                    <motion.div 
+                      className="h-full bg-emerald-500"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${((currentQuestion?.index || 0) / (currentQuestion?.total || 1)) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">
+                    {users.find(u => u.id === userId)?.score || 0} PTS
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 mr-4">
+              <button 
+                onClick={() => {
+                  setIsSoundEnabled(!isSoundEnabled);
+                  if (!isSoundEnabled) playSound('correct');
+                }}
+                className={`p-2.5 rounded-xl border-2 transition-all ${isSoundEnabled ? "bg-yellow-400 border-black text-black" : "bg-white/5 border-white/10 text-white/40"}`}
+                title={isSoundEnabled ? "Mute Sound" : "Unmute Sound"}
+              >
+                {isSoundEnabled ? <Sparkles size={18} /> : <AlertCircle size={18} />}
+              </button>
+              <button 
+                onClick={toggleFullscreen}
+                className="p-2.5 rounded-xl bg-white/5 border-2 border-white/10 text-white/40 hover:text-white hover:border-white/20 transition-all"
+                title="Toggle Fullscreen"
+              >
+                <Plus size={18} />
+              </button>
+            </div>
+
             <button
               onClick={() => setShowShareModal(true)}
               className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl transition-all text-sm font-bold border border-white/10"
@@ -962,20 +1103,37 @@ export default function App() {
               exit={{ opacity: 0, y: -30 }}
               className="space-y-12 py-10"
             >
-              <div className="text-center space-y-6">
-                <motion.div 
-                  initial={{ rotate: -2, scale: 0.9 }}
-                  animate={{ rotate: 0, scale: 1 }}
-                  className="bg-yellow-400 text-black px-12 py-12 rounded-[3rem] border-8 border-black shadow-2xl max-w-4xl mx-auto relative overflow-hidden"
-                >
-                  <div className="absolute top-0 left-0 w-full h-2 bg-black/10" />
-                  <span className="text-xs font-black uppercase tracking-[0.3em] text-black/40 block mb-4">
-                    Question {currentQuestion.index + 1} of {currentQuestion.total}
-                  </span>
-                  <h2 className="text-4xl md:text-5xl font-black leading-tight tracking-tighter uppercase">
-                    {currentQuestion.text}
-                  </h2>
-                </motion.div>
+              <div className="text-center space-y-8">
+                <div className="max-w-4xl mx-auto space-y-4">
+                  <div className="flex items-center justify-between px-4">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-yellow-400 text-black p-2 rounded-lg rotate-3 shadow-lg border-2 border-black">
+                        <TrafficCone size={18} />
+                      </div>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-yellow-400/80">
+                        Question {currentQuestion.index + 1} / {currentQuestion.total}
+                      </span>
+                    </div>
+                    <div className="flex-1 max-w-[200px] h-2 bg-white/10 rounded-full overflow-hidden ml-4">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${((currentQuestion.index + 1) / currentQuestion.total) * 100}%` }}
+                        className="h-full bg-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]"
+                      />
+                    </div>
+                  </div>
+
+                  <motion.div 
+                    initial={{ rotate: -1, scale: 0.95 }}
+                    animate={{ rotate: 0, scale: 1 }}
+                    className="bg-black/60 backdrop-blur-2xl text-white px-10 py-12 rounded-[3rem] border border-white/10 shadow-2xl relative overflow-hidden group"
+                  >
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent" />
+                    <h2 className="text-3xl md:text-5xl font-black leading-tight tracking-tighter uppercase">
+                      {currentQuestion.text}
+                    </h2>
+                  </motion.div>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -1061,41 +1219,68 @@ export default function App() {
               key="leaderboard"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white/10 backdrop-blur-2xl p-16 rounded-[4rem] border-8 border-white/20 shadow-2xl max-w-3xl mx-auto text-center"
+              className="bg-white/10 backdrop-blur-2xl p-16 rounded-[4rem] border-8 border-white/20 shadow-2xl max-w-4xl mx-auto text-center"
             >
-              <div className="mb-16">
+              <div className="mb-16 space-y-4">
                 <motion.div 
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
-                  className="inline-block bg-emerald-500 p-10 rounded-full mb-10 shadow-[0_0_60px_rgba(16,185,129,0.4)] border-4 border-white"
+                  animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                  transition={{ repeat: Infinity, duration: 4 }}
+                  className="inline-block bg-yellow-500 p-10 rounded-full mb-6 shadow-[0_0_60px_rgba(234,179,8,0.4)] border-4 border-black"
                 >
-                  <CheckCircle2 className="text-white w-20 h-20" />
+                  <Trophy className="text-black w-20 h-20" />
                 </motion.div>
-                <h2 className="text-8xl font-black tracking-tighter mb-4 uppercase">Quiz Done!</h2>
-                <p className="text-emerald-400 font-black italic text-3xl tracking-tight">You've reached the destination.</p>
+                <h2 className="text-8xl font-black tracking-tighter mb-4 uppercase italic">Final Standings</h2>
+                <p className="text-emerald-400 font-black italic text-3xl tracking-tight">The journey concludes. Who ruled the road?</p>
               </div>
 
-              <div className="space-y-8 max-w-xl mx-auto">
+              <div className="space-y-8 max-w-2xl mx-auto">
                 <div className="bg-white/5 p-10 rounded-[3rem] border-4 border-white/10">
-                  <p className="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-8">Final Standings</p>
+                  <p className="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-8">Leaderboard Badges</p>
                   <div className="space-y-6">
-                    {users.slice(0, 5).map((u, idx) => (
+                    {users.slice(0, 10).map((u, idx) => (
                       <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: idx * 0.1 }}
                         key={u.id}
-                        className={`flex items-center justify-between p-6 rounded-3xl border-2 ${
+                        className={`flex items-center justify-between p-6 rounded-3xl border-2 relative overflow-hidden group ${
                           idx === 0 
                             ? "bg-yellow-500 text-black border-white scale-105 shadow-2xl" 
+                            : idx === 1 
+                            ? "bg-slate-300 text-black border-white"
+                            : idx === 2
+                            ? "bg-amber-600 text-white border-white"
                             : "bg-white/5 border-white/10 text-white"
                         }`}
                       >
                         <div className="flex items-center gap-6">
-                          <span className="text-3xl font-black w-10">#{idx + 1}</span>
-                          <span className="text-2xl font-black tracking-tight">{u.name}</span>
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-2xl border-2 ${
+                            idx === 0 ? "bg-black text-yellow-500 border-black" : "bg-white/10 border-white/20"
+                          }`}>
+                            {idx + 1}
+                          </div>
+                          <div className="text-left">
+                            <span className="text-2xl font-black tracking-tight block">{u.name}</span>
+                            <div className="flex items-center gap-2">
+                              <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${
+                                idx === 0 ? "bg-black/20" : "bg-white/10"
+                              }`}>
+                                {idx === 0 ? "🏆 Grand Champion" : idx === 1 ? "🥈 Silver Racer" : idx === 2 ? "🥉 Bronze Driver" : "🏁 Finisher"}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <span className="text-3xl font-mono font-black">{u.score}</span>
+                        <div className="text-right">
+                          <span className="text-3xl font-mono font-black">{u.score}</span>
+                          <div className={`text-[10px] font-black uppercase tracking-widest ${idx < 3 ? "opacity-60" : "opacity-20"}`}>Points</div>
+                        </div>
+                        {idx === 0 && (
+                          <motion.div 
+                            animate={{ x: ["-100%", "200%"] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 pointer-events-none"
+                          />
+                        )}
                       </motion.div>
                     ))}
                   </div>
@@ -1105,9 +1290,9 @@ export default function App() {
                   {isOrganizer && (
                     <button
                       onClick={resetSession}
-                      className="w-full bg-purple-500 text-white py-5 rounded-3xl font-black flex items-center justify-center gap-3 hover:bg-purple-600 transition-all shadow-xl uppercase tracking-widest"
+                      className="w-full bg-purple-500 text-white py-5 rounded-3xl font-black flex items-center justify-center gap-3 hover:bg-purple-600 transition-all shadow-xl uppercase tracking-widest border-b-4 border-purple-700 active:scale-95"
                     >
-                      <Plus size={20} /> START NEW QUIZ
+                      <Plus size={20} /> START NEW JOURNEY
                     </button>
                   )}
                   <p className="text-white/20 font-black uppercase tracking-widest text-xs">
