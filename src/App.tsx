@@ -16,6 +16,159 @@ interface Question {
   correctAnswer: number;
 }
 
+const ROAD_SAFETY_QUESTIONS: Question[] = [
+  {
+    text: "Why are rear-view mirrors important?",
+    options: ["To see passengers", "To monitor traffic behind the vehicle", "To check vehicle color", "To see the dashboard"],
+    correctAnswer: 1
+  },
+  {
+    text: "What is the purpose of speed breakers?",
+    options: ["Increase vehicle speed", "Slow down vehicles for safety", "Stop vehicles permanently", "Reduce fuel consumption"],
+    correctAnswer: 1
+  },
+  {
+    text: "Driving under the influence of alcohol mainly affects:",
+    options: ["Reaction time and judgment", "Tire pressure", "Fuel efficiency", "Engine performance"],
+    correctAnswer: 0
+  },
+  {
+    text: "When overtaking another vehicle, you should:",
+    options: ["Overtake from the left", "Overtake from the right when safe", "Honk continuously", "Drive on the divider"],
+    correctAnswer: 1
+  },
+  {
+    text: "Why should drivers avoid sudden braking?",
+    options: ["It saves fuel", "It can cause rear-end collisions", "It increases speed", "It improves mileage"],
+    correctAnswer: 1
+  },
+  {
+    text: "Which of the following is part of safe driving practice?",
+    options: ["Following traffic signals", "Wearing seat belts", "Avoiding distractions", "All of the above"],
+    correctAnswer: 3
+  },
+  {
+    text: "Reflective road signs help drivers mainly during:",
+    options: ["Daytime", "Nighttime", "Afternoon", "Noon only"],
+    correctAnswer: 1
+  },
+  {
+    text: "What should cyclists do to stay safe on roads?",
+    options: ["Follow traffic rules", "Wear helmets", "Use proper lanes", "All of the above"],
+    correctAnswer: 3
+  },
+  {
+    text: "Road rage is:",
+    options: ["Calm driving", "Aggressive or angry driving behavior", "Safe driving", "Defensive driving"],
+    correctAnswer: 1
+  },
+  {
+    text: "What is the safest speed in poor visibility conditions?",
+    options: ["Maximum speed", "Reduced speed according to visibility", "Double speed", "No speed limit"],
+    correctAnswer: 1
+  },
+  {
+    text: "What is the safest action if brakes fail while driving?",
+    options: ["Panic and accelerate", "Shift to lower gear and use parking brake gradually", "Turn off engine immediately", "Jump out of the vehicle"],
+    correctAnswer: 1
+  },
+  {
+    text: "Why should drivers check mirror frequently?",
+    options: ["To adjust hair", "To monitor surrounding traffic", "To see passengers", "To check fuel level"],
+    correctAnswer: 1
+  },
+  {
+    text: "Which road marking allows overtaking if safe?",
+    options: ["Solid white line", "Broken white line", "Double solid line", "Yellow box"],
+    correctAnswer: 1
+  },
+  {
+    text: "What does ABS in vehicles prevent?",
+    options: ["Engine overheating", "Brake locking during sudden braking", "Fuel leakage", "Tire burst"],
+    correctAnswer: 1
+  },
+  {
+    text: "When should you use the vehicle horn?",
+    options: ["To greet friends", "To warn other road users", "Continuously in traffic", "At traffic signals"],
+    correctAnswer: 1
+  },
+  {
+    text: "A zebra crossing is meant for:",
+    options: ["Bicycles", "Pedestrians", "Motorcycles", "Buses"],
+    correctAnswer: 1
+  },
+  {
+    text: "What should you do before changing lanes?",
+    options: ["Honk loudly", "Check mirrors and blind spots", "Accelerate quickly", "Stop vehicle"],
+    correctAnswer: 1
+  },
+  {
+    text: "What does a “No U-turn” sign indicate?",
+    options: ["U-turn allowed anytime", "U-turn prohibited", "U-turn recommended", "Only buses can turn"],
+    correctAnswer: 1
+  },
+  {
+    text: "The term “defensive driving” means:",
+    options: ["Driving fast", "Being prepared for possible hazards", "Ignoring traffic rules", "Driving aggressively"],
+    correctAnswer: 1
+  },
+  {
+    text: "The blind spot of a vehicle is:",
+    options: ["Area not visible in mirrors", "Front windshield", "Dashboard", "Engine area"],
+    correctAnswer: 0
+  },
+  {
+    text: "What should drivers do during heavy rain?",
+    options: ["Increase speed", "Maintain safe distance", "Turn off headlights", "Ignore signals"],
+    correctAnswer: 1
+  },
+  {
+    text: "Speed limits are designed to:",
+    options: ["Control traffic speed", "Improve road safety", "Reduce accidents", "All of the above"],
+    correctAnswer: 3
+  },
+  {
+    text: "What should you do when an ambulance approaches with siren?",
+    options: ["Follow closely", "Give way immediately", "Ignore it", "Race with it"],
+    correctAnswer: 1
+  },
+  {
+    text: "Fatigue while driving leads to:",
+    options: ["Reduced concentration", "Faster reactions", "Better driving", "Increased safety"],
+    correctAnswer: 0
+  },
+  {
+    text: "What does a railway crossing sign warn about?",
+    options: ["Bridge ahead", "Railway track ahead", "Tunnel ahead", "Highway exit"],
+    correctAnswer: 1
+  },
+  {
+    text: "What is the main function of road dividers?",
+    options: ["Beautify the road", "Separate traffic moving in opposite directions", "Reduce fuel consumption", "Increase speed"],
+    correctAnswer: 1
+  },
+  {
+    text: "When approaching a roundabout, drivers should:",
+    options: ["Speed up", "Give way to traffic already in the roundabout", "Stop in the middle", "Honk continuously"],
+    correctAnswer: 1
+  },
+  {
+    text: "A continuous yellow line on the road usually indicates:",
+    options: ["Overtaking allowed", "Overtaking prohibited", "Parking allowed", "Bus stop"],
+    correctAnswer: 1
+  },
+  {
+    text: "What should you do if traffic lights are not working?",
+    options: ["Ignore them", "Follow traffic police or road signs", "Drive fast", "Honk continuously"],
+    correctAnswer: 1
+  },
+  {
+    text: "Hazard lights should be used when:",
+    options: ["Driving normally", "Vehicle breaks down or in emergency", "At traffic signals", "Overtaking vehicles"],
+    correctAnswer: 1
+  }
+];
+
 interface ActiveQuestion {
   text: string;
   options: string[];
@@ -533,6 +686,12 @@ export default function App() {
     );
   }
 
+  useEffect(() => {
+    if (isOrganizer && quizState === "setup" && manualQuestions.length === 0) {
+      setManualQuestions(ROAD_SAFETY_QUESTIONS);
+    }
+  }, [isOrganizer, quizState]);
+
   const addQuestion = () => {
     setManualQuestions([...manualQuestions, { 
       text: "", 
@@ -674,6 +833,12 @@ export default function App() {
                       AI GENERATE
                     </button>
                   </div>
+                  <button
+                    onClick={() => setManualQuestions(ROAD_SAFETY_QUESTIONS)}
+                    className="bg-emerald-500 hover:bg-emerald-600 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all shadow-lg"
+                  >
+                    <CheckCircle2 size={20} /> Reset to Road Safety Set
+                  </button>
                   <button
                     onClick={addQuestion}
                     className="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all"
