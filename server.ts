@@ -56,6 +56,7 @@ let organizerId: string | null = null;
 let currentQuestionIndex = -1;
 let quizState: "setup" | "joining" | "question" | "answer" | "leaderboard" = "setup";
 let timerValue = 0;
+let questionStartTime = 0;
 let timerInterval: NodeJS.Timeout | null = null;
 let userListBroadcastTimeout: NodeJS.Timeout | null = null;
 
@@ -78,9 +79,13 @@ function broadcastUserList() {
   if (userListBroadcastTimeout) return;
   
   userListBroadcastTimeout = setTimeout(() => {
+    const sortedUsers = Array.from(users.values())
+      .sort((a, b) => b.score - a.score)
+      .map(u => ({ id: u.id, name: u.name, score: u.score }));
+      
     broadcast({ 
       type: "user_list", 
-      users: Array.from(users.values()).map(u => ({ id: u.id, name: u.name, score: u.score }))
+      users: sortedUsers
     });
     userListBroadcastTimeout = null;
   }, 300); // Batch updates every 300ms
@@ -89,6 +94,7 @@ function broadcastUserList() {
 function startTimer(duration: number, onComplete: () => void) {
   if (timerInterval) clearInterval(timerInterval);
   timerValue = duration;
+  questionStartTime = Date.now();
   broadcast({ type: "timer", value: timerValue });
 
   timerInterval = setInterval(() => {
@@ -266,11 +272,13 @@ wss.on("connection", (ws, req) => {
           user.answeredCorrectly = isCorrect;
 
           if (isCorrect) {
-            const timeTaken = config.timePerQuestion - timerValue;
-            const points = Math.max(100, Math.floor(1000 * (1 - timeTaken / config.timePerQuestion)));
+            const timeTakenMs = Date.now() - questionStartTime;
+            const timeTakenSec = timeTakenMs / 1000;
+            const points = Math.max(100, Math.floor(1000 * (1 - timeTakenSec / config.timePerQuestion)));
             user.score += points;
           }
           broadcast({ type: "user_answered", userId });
+          broadcastUserList(); // Update leaderboard immediately on answer
         }
         break;
 
