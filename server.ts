@@ -75,12 +75,22 @@ function broadcast(data: any) {
   });
 }
 
-function broadcastUserList() {
-  if (userListBroadcastTimeout) return;
+function broadcastUserList(immediate = false) {
+  if (userListBroadcastTimeout) {
+    if (immediate) {
+      clearTimeout(userListBroadcastTimeout);
+      userListBroadcastTimeout = null;
+    } else {
+      return;
+    }
+  }
   
-  userListBroadcastTimeout = setTimeout(() => {
+  const send = () => {
     const sortedUsers = Array.from(users.values())
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.name.localeCompare(b.name); // Stable sort by name
+      })
       .map(u => ({ id: u.id, name: u.name, score: u.score }));
       
     broadcast({ 
@@ -88,7 +98,13 @@ function broadcastUserList() {
       users: sortedUsers
     });
     userListBroadcastTimeout = null;
-  }, 300); // Batch updates every 300ms
+  };
+
+  if (immediate) {
+    send();
+  } else {
+    userListBroadcastTimeout = setTimeout(send, 300);
+  }
 }
 
 function startTimer(duration: number, onComplete: () => void) {
@@ -156,10 +172,14 @@ function nextStep() {
 
 function revealAnswer() {
   quizState = "answer";
+  broadcastUserList(true); // Clear pending and send immediate sorted list
   broadcast({
     type: "reveal_answer",
     correctAnswer: questions[currentQuestionIndex].correctAnswer,
-    leaderboard: Array.from(users.values()).sort((a, b) => b.score - a.score),
+    leaderboard: Array.from(users.values()).sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.name.localeCompare(b.name);
+    }),
   });
   setTimeout(nextStep, 5000);
 }
@@ -232,6 +252,36 @@ wss.on("connection", (ws, req) => {
         
         users.set(userId, { id: userId, name: message.name, score: 0 });
         ws.send(JSON.stringify({ type: "joined", userId, isOrganizer: userId === organizerId }));
+        
+        // If joining during a question, send the current question state
+        if (quizState === "question" && currentQuestionIndex >= 0) {
+          ws.send(JSON.stringify({
+            type: "quiz_start", // Reuse quiz_start to trigger question view
+            question: {
+              text: questions[currentQuestionIndex].text,
+              options: questions[currentQuestionIndex].options,
+              index: currentQuestionIndex,
+              total: questions.length,
+            },
+          }));
+          ws.send(JSON.stringify({ type: "timer", value: timerValue }));
+        } else if (quizState === "answer") {
+          ws.send(JSON.stringify({
+            type: "reveal_answer",
+            correctAnswer: questions[currentQuestionIndex].correctAnswer,
+            explanation: questions[currentQuestionIndex].explanation,
+          }));
+        } else if (quizState === "leaderboard") {
+          const currentLeaderboard = Array.from(users.values()).sort((a, b) => {
+            if (b.score !== a.score) return b.score - a.score;
+            return a.name.localeCompare(b.name);
+          });
+          ws.send(JSON.stringify({
+            type: "quiz_end",
+            leaderboard: currentLeaderboard,
+          }));
+        }
+        
         broadcastUserList();
         break;
 
@@ -245,7 +295,11 @@ wss.on("connection", (ws, req) => {
         if (userId === organizerId && (quizState === "question" || quizState === "answer")) {
           if (timerInterval) clearInterval(timerInterval);
           quizState = "leaderboard";
-          const finalLeaderboard = Array.from(users.values()).sort((a, b) => b.score - a.score);
+          broadcastUserList(true); // Clear pending
+          const finalLeaderboard = Array.from(users.values()).sort((a, b) => {
+            if (b.score !== a.score) return b.score - a.score;
+            return a.name.localeCompare(b.name);
+          });
           broadcast({
             type: "quiz_end",
             leaderboard: finalLeaderboard,
@@ -339,7 +393,6 @@ wss.on("connection", (ws, req) => {
   });
 
   ws.on("close", () => {
-    users.delete(userId);
     if (userId === organizerId) {
       organizerId = null;
     }
@@ -367,3 +420,4 @@ async function init() {
 }
 
 init();
+
