@@ -1407,12 +1407,12 @@ export default function App() {
               <div className="space-y-6 md:space-y-8 max-w-2xl mx-auto">
                 <div className="bg-white/5 p-6 md:p-10 rounded-2xl md:rounded-[3rem] border-2 md:border-4 border-white/10">
                   <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-6 md:mb-8">Leaderboard Badges</p>
-                  <div className="space-y-4 md:space-y-6">
-                    {users.slice(0, 10).map((u, idx) => (
+                  <div className="space-y-4 md:space-y-6 max-h-[50vh] overflow-y-auto pr-2 scrollbar-hide hover:scrollbar-default">
+                    {users.map((u, idx) => (
                       <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.1 }}
+                        transition={{ duration: 0.3 }}
                         key={u.id}
                         className={`flex items-center justify-between p-4 md:p-6 rounded-2xl md:rounded-3xl border-2 relative overflow-hidden group ${
                           idx === 0 
