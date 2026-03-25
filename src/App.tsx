@@ -1407,14 +1407,14 @@ export default function App() {
               <div className="space-y-6 md:space-y-8 max-w-2xl mx-auto">
                 <div className="bg-white/5 p-6 md:p-10 rounded-2xl md:rounded-[3rem] border-2 md:border-4 border-white/10">
                   <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-6 md:mb-8">Leaderboard Badges</p>
-                  <div className="space-y-4 md:space-y-6 max-h-[50vh] overflow-y-auto pr-2 scrollbar-hide hover:scrollbar-default">
+                  <div className="space-y-2 md:space-y-6 max-h-[65vh] overflow-y-auto pr-2 scrollbar-hide hover:scrollbar-default">
                     {users.map((u, idx) => (
                       <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3 }}
                         key={u.id}
-                        className={`flex items-center justify-between p-4 md:p-6 rounded-2xl md:rounded-3xl border-2 relative overflow-hidden group ${
+                        className={`flex items-center justify-between p-2 md:p-6 rounded-lg md:rounded-3xl border-2 relative overflow-hidden group ${
                           idx === 0 
                             ? "bg-yellow-500 text-black border-white scale-105 shadow-2xl" 
                             : idx === 1 
@@ -1424,16 +1424,16 @@ export default function App() {
                             : "bg-white/5 border-white/10 text-white"
                         }`}
                       >
-                        <div className="flex items-center gap-4 md:gap-6">
-                          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-xl md:text-2xl border-2 ${
+                        <div className="flex items-center gap-2 md:gap-6">
+                          <div className={`w-6 h-6 md:w-12 md:h-12 rounded-md md:rounded-xl flex items-center justify-center font-black text-xs md:text-2xl border-2 ${
                             idx === 0 ? "bg-black text-yellow-500 border-black" : "bg-white/10 border-white/20"
                           }`}>
                             {idx + 1}
                           </div>
                           <div className="text-left">
-                            <span className="text-lg md:text-2xl font-black tracking-tight block">{u.name}</span>
-                            <div className="flex items-center gap-2">
-                              <span className={`text-[8px] md:text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${
+                            <span className="text-sm md:text-2xl font-black tracking-tight block truncate max-w-[100px] md:max-w-none">{u.name}</span>
+                            <div className="flex items-center gap-1">
+                              <span className={`text-[6px] md:text-[10px] font-black uppercase tracking-widest px-1 py-0.5 rounded ${
                                 idx === 0 ? "bg-black/20" : "bg-white/10"
                               }`}>
                                 {idx === 0 ? "🏆 Grand Champion" : idx === 1 ? "🥈 Silver Racer" : idx === 2 ? "🥉 Bronze Driver" : "🏁 Finisher"}
@@ -1442,8 +1442,8 @@ export default function App() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <span className="text-xl md:text-3xl font-mono font-black">{u.score}</span>
-                          <div className={`text-[8px] md:text-[10px] font-black uppercase tracking-widest ${idx < 3 ? "opacity-60" : "opacity-20"}`}>Points</div>
+                          <span className="text-base md:text-3xl font-mono font-black">{u.score}</span>
+                          <div className={`text-[6px] md:text-[10px] font-black uppercase tracking-widest ${idx < 3 ? "opacity-60" : "opacity-20"}`}>Points</div>
                         </div>
                         {idx === 0 && (
                           <motion.div 
@@ -1576,3 +1576,4 @@ export default function App() {
     </div>
   );
 }
+
