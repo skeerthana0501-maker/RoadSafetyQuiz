@@ -18,154 +18,154 @@ interface Question {
 
 const ROAD_SAFETY_QUESTIONS: Question[] = [
   {
-    text: "Why are rear-view mirrors important?",
-    options: ["To see passengers", "To monitor traffic behind the vehicle", "To check vehicle color", "To see the dashboard"],
-    correctAnswer: 1
-  },
-  {
-    text: "What is the purpose of speed breakers?",
-    options: ["Increase vehicle speed", "Slow down vehicles for safety", "Stop vehicles permanently", "Reduce fuel consumption"],
-    correctAnswer: 1
-  },
-  {
-    text: "Driving under the influence of alcohol mainly affects:",
-    options: ["Reaction time and judgment", "Tire pressure", "Fuel efficiency", "Engine performance"],
+    text: "Which factor most critically determines accident severity?",
+    options: ["Vehicle speed", "Road color", "Driver age", "Fuel type"],
     correctAnswer: 0
   },
   {
-    text: "When overtaking another vehicle, you should:",
-    options: ["Overtake from the left", "Overtake from the right when safe", "Honk continuously", "Drive on the divider"],
-    correctAnswer: 1
+    text: "Reaction distance increases mainly with:",
+    options: ["Vehicle weight", "Driver experience", "Speed of the vehicle", "Tire size"],
+    correctAnswer: 2
   },
   {
-    text: "Why should drivers avoid sudden braking?",
-    options: ["It saves fuel", "It can cause rear-end collisions", "It increases speed", "It improves mileage"],
-    correctAnswer: 1
-  },
-  {
-    text: "Which of the following is part of safe driving practice?",
-    options: ["Following traffic signals", "Wearing seat belts", "Avoiding distractions", "All of the above"],
-    correctAnswer: 3
-  },
-  {
-    text: "Reflective road signs help drivers mainly during:",
-    options: ["Daytime", "Nighttime", "Afternoon", "Noon only"],
-    correctAnswer: 1
-  },
-  {
-    text: "What should cyclists do to stay safe on roads?",
-    options: ["Follow traffic rules", "Wear helmets", "Use proper lanes", "All of the above"],
-    correctAnswer: 3
-  },
-  {
-    text: "Road rage is:",
-    options: ["Calm driving", "Aggressive or angry driving behavior", "Safe driving", "Defensive driving"],
-    correctAnswer: 1
-  },
-  {
-    text: "What is the safest speed in poor visibility conditions?",
-    options: ["Maximum speed", "Reduced speed according to visibility", "Double speed", "No speed limit"],
-    correctAnswer: 1
-  },
-  {
-    text: "What is the safest action if brakes fail while driving?",
-    options: ["Panic and accelerate", "Shift to lower gear and use parking brake gradually", "Turn off engine immediately", "Jump out of the vehicle"],
-    correctAnswer: 1
-  },
-  {
-    text: "Why should drivers check mirror frequently?",
-    options: ["To adjust hair", "To monitor surrounding traffic", "To see passengers", "To check fuel level"],
-    correctAnswer: 1
-  },
-  {
-    text: "Which road marking allows overtaking if safe?",
-    options: ["Solid white line", "Broken white line", "Double solid line", "Yellow box"],
-    correctAnswer: 1
-  },
-  {
-    text: "What does ABS in vehicles prevent?",
-    options: ["Engine overheating", "Brake locking during sudden braking", "Fuel leakage", "Tire burst"],
-    correctAnswer: 1
-  },
-  {
-    text: "When should you use the vehicle horn?",
-    options: ["To greet friends", "To warn other road users", "Continuously in traffic", "At traffic signals"],
-    correctAnswer: 1
-  },
-  {
-    text: "A zebra crossing is meant for:",
-    options: ["Bicycles", "Pedestrians", "Motorcycles", "Buses"],
-    correctAnswer: 1
-  },
-  {
-    text: "What should you do before changing lanes?",
-    options: ["Honk loudly", "Check mirrors and blind spots", "Accelerate quickly", "Stop vehicle"],
-    correctAnswer: 1
-  },
-  {
-    text: "What does a “No U-turn” sign indicate?",
-    options: ["U-turn allowed anytime", "U-turn prohibited", "U-turn recommended", "Only buses can turn"],
-    correctAnswer: 1
-  },
-  {
-    text: "The term “defensive driving” means:",
-    options: ["Driving fast", "Being prepared for possible hazards", "Ignoring traffic rules", "Driving aggressively"],
-    correctAnswer: 1
-  },
-  {
-    text: "The blind spot of a vehicle is:",
-    options: ["Area not visible in mirrors", "Front windshield", "Dashboard", "Engine area"],
+    text: "Total stopping distance is the sum of:",
+    options: ["Reaction distance + braking distance", "Speed + time", "Distance + velocity", "Friction + energy"],
     correctAnswer: 0
   },
   {
-    text: "What should drivers do during heavy rain?",
-    options: ["Increase speed", "Maintain safe distance", "Turn off headlights", "Ignore signals"],
+    text: "Why is night driving riskier than day driving?",
+    options: ["Roads are longer", "Vehicles are heavier", "Reduced depth perception and visibility", "Less traffic signals"],
+    correctAnswer: 2
+  },
+  {
+    text: "Which condition increases braking distance the most?",
+    options: ["Dry road", "Wet or slippery road", "New tires", "Low speed"],
     correctAnswer: 1
   },
   {
-    text: "Speed limits are designed to:",
-    options: ["Control traffic speed", "Improve road safety", "Reduce accidents", "All of the above"],
+    text: "What is the main purpose of speed limits?",
+    options: ["Increase travel time", "Reduce fuel usage", "Ensure safety based on road conditions", "Control vehicle sales"],
+    correctAnswer: 2
+  },
+  {
+    text: "Which driver behavior shows “risk compensation”?",
+    options: ["Driving slower in rain", "Driving faster due to safety features like ABS", "Wearing a seatbelt", "Using indicators"],
+    correctAnswer: 1
+  },
+  {
+    text: "What happens during hydroplaning?",
+    options: ["Tires grip stronger", "Tires lose contact with road due to water layer", "Engine stops", "Brakes fail"],
+    correctAnswer: 1
+  },
+  {
+    text: "Which is an example of active safety?",
+    options: ["Airbags", "Seat belts", "ABS system", "Crumple zones"],
+    correctAnswer: 2
+  },
+  {
+    text: "Why is tailgating dangerous?",
+    options: ["Reduces fuel consumption", "Increases braking efficiency", "Reduces reaction time to avoid collision", "Improves traffic flow"],
+    correctAnswer: 2
+  },
+  {
+    text: "Which factor most affects driver reaction time?",
+    options: ["Vehicle color", "Fatigue and distraction", "Road length", "Engine capacity"],
+    correctAnswer: 1
+  },
+  {
+    text: "Safest action if someone tailgates you?",
+    options: ["Brake suddenly", "Speed up", "Maintain speed and allow overtaking", "Block them"],
+    correctAnswer: 2
+  },
+  {
+    text: "Which absorbs crash impact energy?",
+    options: ["Median", "Guardrails/crash barriers", "Speed breakers", "Lane markings"],
+    correctAnswer: 1
+  },
+  {
+    text: "Why are reflective signs used?",
+    options: ["Decoration", "Reduce speed", "Improve visibility in low light", "Improve road quality"],
+    correctAnswer: 2
+  },
+  {
+    text: "Why does over-speeding increase risk sharply?",
+    options: ["Tires wear faster", "Reaction time decreases", "Kinetic energy increases with square of speed", "Fuel burns faster"],
+    correctAnswer: 2
+  },
+  {
+    text: "Highest accident probability occurs in:",
+    options: ["Straight road", "Empty highway", "Parked zone", "Sharp turn at high speed"],
     correctAnswer: 3
   },
   {
-    text: "What should you do when an ambulance approaches with siren?",
-    options: ["Follow closely", "Give way immediately", "Ignore it", "Race with it"],
+    text: "Purpose of lane discipline?",
+    options: ["Save fuel", "Increase overtaking", "Maintain predictable traffic flow", "Reduce vehicle size"],
+    correctAnswer: 2
+  },
+  {
+    text: "What is a conflict point?",
+    options: ["Parking area", "Toll booth", "Fuel station", "Intersection where paths cross"],
+    correctAnswer: 3
+  },
+  {
+    text: "Why are pedestrians more vulnerable?",
+    options: ["Walk slowly", "Ignore signals", "Lack protective structure", "Use roads less"],
+    correctAnswer: 2
+  },
+  {
+    text: "Effect of fatigue on driving?",
+    options: ["Improves focus", "Slows reaction and decision-making", "Increases energy", "Improves braking"],
     correctAnswer: 1
   },
   {
-    text: "Fatigue while driving leads to:",
-    options: ["Reduced concentration", "Faster reactions", "Better driving", "Increased safety"],
-    correctAnswer: 0
+    text: "Why avoid sudden braking at high speed?",
+    options: ["Increases fuel usage", "Damages engine", "Improves stopping", "Causes skidding/instability"],
+    correctAnswer: 3
   },
   {
-    text: "What does a railway crossing sign warn about?",
-    options: ["Bridge ahead", "Railway track ahead", "Tunnel ahead", "Highway exit"],
-    correctAnswer: 1
+    text: "Defensive driving is based on:",
+    options: ["Aggression", "High speed", "Prediction and anticipation of hazards", "Ignoring others"],
+    correctAnswer: 2
   },
   {
-    text: "What is the main function of road dividers?",
-    options: ["Beautify the road", "Separate traffic moving in opposite directions", "Reduce fuel consumption", "Increase speed"],
-    correctAnswer: 1
+    text: "Which reduces friction the most?",
+    options: ["Dry asphalt", "Concrete", "Rough road", "Oil or mud on road"],
+    correctAnswer: 3
   },
   {
-    text: "When approaching a roundabout, drivers should:",
-    options: ["Speed up", "Give way to traffic already in the roundabout", "Stop in the middle", "Honk continuously"],
-    correctAnswer: 1
+    text: "Why is overtaking on curves dangerous?",
+    options: ["Narrow roads", "Slower vehicles", "More signals", "Limited visibility of oncoming traffic"],
+    correctAnswer: 3
   },
   {
-    text: "A continuous yellow line on the road usually indicates:",
-    options: ["Overtaking allowed", "Overtaking prohibited", "Parking allowed", "Bus stop"],
-    correctAnswer: 1
+    text: "What does “right of way” mean?",
+    options: ["Right turn", "Driving on right", "Priority to proceed in traffic", "Overtaking"],
+    correctAnswer: 2
   },
   {
-    text: "What should you do if traffic lights are not working?",
-    options: ["Ignore them", "Follow traffic police or road signs", "Drive fast", "Honk continuously"],
-    correctAnswer: 1
+    text: "Safe speed during heavy rain?",
+    options: ["Same as normal", "Maximum speed", "Reduced based on visibility and grip", "Higher speed"],
+    correctAnswer: 2
   },
   {
-    text: "Hazard lights should be used when:",
-    options: ["Driving normally", "Vehicle breaks down or in emergency", "At traffic signals", "Overtaking vehicles"],
-    correctAnswer: 1
+    text: "Why speed breakers near schools?",
+    options: ["Decoration", "Increase traffic", "Control pollution", "Reduce speed for safety"],
+    correctAnswer: 3
+  },
+  {
+    text: "Function of road markings?",
+    options: ["Beautification", "Increase friction", "Reduce cost", "Guide and regulate traffic"],
+    correctAnswer: 3
+  },
+  {
+    text: "Most effective accident prevention?",
+    options: ["Driving fast", "Using horn", "Ignoring signals", "Following rules and staying alert"],
+    correctAnswer: 3
+  },
+  {
+    text: "Why is driver training important?",
+    options: ["Learn vehicle color", "Reduce fuel use", "Increase speed", "Improve skills and decision-making"],
+    correctAnswer: 3
   }
 ];
 
@@ -251,13 +251,13 @@ const SessionEndedView = ({ onHostLogin }: { onHostLogin: () => void }) => (
     <motion.div 
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="bg-white/10 backdrop-blur-xl p-12 rounded-[3rem] border border-white/10 shadow-2xl max-w-md text-center space-y-6"
+      className="bg-white/10 backdrop-blur-xl p-8 md:p-12 rounded-3xl md:rounded-[3rem] border border-white/10 shadow-2xl max-w-md text-center space-y-6"
     >
       <div className="bg-purple-500/20 p-6 rounded-full w-20 h-20 flex items-center justify-center mx-auto">
         <XCircle className="text-purple-400 w-10 h-10" />
       </div>
-      <h2 className="text-4xl font-black tracking-tighter">Session Ended</h2>
-      <p className="text-purple-300/60 serif italic text-lg">
+      <h2 className="text-3xl md:text-4xl font-black tracking-tighter">Session Ended</h2>
+      <p className="text-purple-100 serif italic text-lg">
         This quiz session has already concluded. You can't join this one anymore!
       </p>
       <div className="space-y-4">
@@ -269,7 +269,7 @@ const SessionEndedView = ({ onHostLogin }: { onHostLogin: () => void }) => (
         </button>
         <button
           onClick={onHostLogin}
-          className="w-full bg-white/5 text-purple-300 py-3 rounded-2xl font-bold text-sm hover:bg-white/10 transition-all border border-white/10 flex items-center justify-center gap-2"
+          className="w-full bg-white/5 text-purple-200 py-3 rounded-2xl font-bold text-sm hover:bg-white/10 transition-all border border-white/10 flex items-center justify-center gap-2"
         >
           <Crown size={16} /> HOST LOGIN
         </button>
@@ -645,19 +645,19 @@ export default function App() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/10 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white/20 text-center space-y-8"
+          className="bg-white/10 backdrop-blur-xl p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white/20 text-center space-y-8"
         >
           <div className="bg-purple-500/20 p-5 rounded-3xl w-20 h-20 flex items-center justify-center mx-auto">
             <LogIn className="text-purple-400 w-10 h-10" />
           </div>
           <div className="space-y-2">
-            <h2 className="text-3xl font-black tracking-tighter uppercase">Host Access Required</h2>
-            <p className="text-purple-300/50 serif italic">This quiz has concluded. Enter host password to view results.</p>
+            <h2 className="text-2xl md:text-3xl font-black tracking-tighter uppercase">Host Access Required</h2>
+            <p className="text-purple-100 serif italic">This quiz has concluded. Enter host password to view results.</p>
           </div>
           
           <div className="space-y-4">
             <div className="space-y-2 text-left">
-              <label className="block text-[10px] font-black uppercase tracking-widest text-purple-300/30 ml-2">Host Password</label>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-purple-200 ml-2">Host Password</label>
               <input
                 type="password"
                 value={hostPassword}
@@ -676,7 +676,7 @@ export default function App() {
             </button>
             <button
               onClick={() => window.location.href = window.location.origin}
-              className="w-full bg-transparent text-purple-300/50 py-2 rounded-2xl font-bold text-xs hover:text-purple-300 transition-all"
+              className="w-full bg-transparent text-purple-200 py-2 rounded-2xl font-bold text-xs hover:text-white transition-all"
             >
               Back to Home
             </button>
@@ -801,56 +801,56 @@ export default function App() {
     if (quizState === "setup") {
       if (isOrganizer) {
         return (
-          <div className="min-h-screen bg-[#1A0B2E] font-sans text-white p-8">
+          <div className="min-h-screen bg-[#1A0B2E] font-sans text-white p-4 md:p-8">
             <BackgroundAnimation />
             <div className="max-w-5xl mx-auto space-y-8">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                  <h2 className="text-4xl font-black tracking-tight">Quiz Setup</h2>
-                  <p className="text-purple-300/50 serif italic">Design your custom session</p>
+                  <h2 className="text-3xl md:text-4xl font-black tracking-tight">Quiz Setup</h2>
+                  <p className="text-purple-200 serif italic">Design your custom session</p>
                 </div>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-3 md:gap-4">
                   <button
                     onClick={() => setShowShareModal(true)}
-                    className="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all"
+                    className="bg-white/5 hover:bg-white/10 px-4 md:px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all text-sm"
                   >
-                    <LinkIcon size={20} /> Share Link
+                    <LinkIcon size={18} /> Share Link
                   </button>
-                  <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+                  <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10 flex-1 md:flex-none">
                     <input 
                       type="text"
                       value={topic}
                       onChange={(e) => setTopic(e.target.value)}
-                      placeholder="Enter a topic (e.g. 80s Pop Music)"
-                      className="bg-transparent px-4 py-2 outline-none text-sm w-48"
+                      placeholder="Topic (e.g. 80s Pop)"
+                      className="bg-transparent px-3 md:px-4 py-2 outline-none text-sm w-full md:w-48"
                     />
                     <button
                       onClick={generateAIQuestions}
                       disabled={isGenerating || !topic.trim()}
-                      className="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-xl text-xs font-black flex items-center gap-2 transition-all disabled:opacity-50"
+                      className="bg-purple-500 hover:bg-purple-600 px-3 md:px-4 py-2 rounded-xl text-[10px] font-black flex items-center gap-2 transition-all disabled:opacity-50"
                     >
                       {isGenerating ? <Sparkles className="animate-spin" size={14} /> : <Sparkles size={14} />}
-                      AI GENERATE
+                      AI
                     </button>
                   </div>
                   <button
                     onClick={() => setManualQuestions(ROAD_SAFETY_QUESTIONS)}
-                    className="bg-emerald-500 hover:bg-emerald-600 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all shadow-lg"
+                    className="bg-emerald-500 hover:bg-emerald-600 px-4 md:px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all shadow-lg text-sm"
                   >
-                    <CheckCircle2 size={20} /> Reset to Road Safety Set
+                    <CheckCircle2 size={18} /> Reset Set
                   </button>
                   <button
                     onClick={addQuestion}
-                    className="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all"
+                    className="bg-white/5 hover:bg-white/10 px-4 md:px-6 py-3 rounded-2xl font-bold flex items-center gap-2 border border-white/10 transition-all text-sm"
                   >
-                    <Plus size={20} /> Add Question
+                    <Plus size={18} /> Add
                   </button>
                   <button
                     onClick={handleSetupSubmit}
                     disabled={manualQuestions.length === 0}
-                    className="bg-gradient-to-r from-purple-500 to-indigo-600 px-8 py-3 rounded-2xl font-black flex items-center gap-2 shadow-lg hover:shadow-purple-500/20 transition-all disabled:opacity-50"
+                    className="bg-gradient-to-r from-purple-500 to-indigo-600 px-6 md:px-8 py-3 rounded-2xl font-black flex items-center gap-2 shadow-lg hover:shadow-purple-500/20 transition-all disabled:opacity-50 text-sm"
                   >
-                    <Save size={20} /> Finalize Questions
+                    <Save size={18} /> Finalize
                   </button>
                 </div>
               </div>
@@ -862,29 +862,29 @@ export default function App() {
                     key={qIdx}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="bg-white/5 border border-white/10 p-8 rounded-[2rem] space-y-6 relative group"
+                    className="bg-white/5 border border-white/10 p-6 md:p-8 rounded-3xl md:rounded-[2rem] space-y-6 relative group"
                   >
                     <button
                       onClick={() => removeQuestion(qIdx)}
-                      className="absolute top-6 right-6 text-white/20 hover:text-rose-400 transition-colors"
+                      className="absolute top-4 right-4 md:top-6 md:right-6 text-white/20 hover:text-rose-400 transition-colors"
                     >
-                      <Trash2 size={20} />
+                      <Trash2 size={18} />
                     </button>
                     
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-purple-300/30">Question {qIdx + 1}</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-purple-200">Question {qIdx + 1}</label>
                       <input
                         type="text"
                         value={q.text}
                         onChange={(e) => updateQuestion(qIdx, e.target.value)}
                         placeholder="Type your question here..."
-                        className="w-full bg-transparent text-2xl font-bold border-b-2 border-white/10 focus:border-purple-500 outline-none pb-2 transition-all"
+                        className="w-full bg-transparent text-xl md:text-2xl font-bold border-b-2 border-white/10 focus:border-purple-500 outline-none pb-2 transition-all"
                       />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                       {q.options.map((opt, oIdx) => (
-                        <div key={oIdx} className="flex items-center gap-3 bg-white/5 p-4 rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
+                        <div key={oIdx} className="flex items-center gap-3 bg-white/5 p-3 md:p-4 rounded-xl md:rounded-2xl border border-white/5 group-hover:border-white/10 transition-all">
                           <button
                             onClick={() => setCorrect(qIdx, oIdx)}
                             className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
@@ -898,7 +898,7 @@ export default function App() {
                             value={opt}
                             onChange={(e) => updateOption(qIdx, oIdx, e.target.value)}
                             placeholder={`Option ${oIdx + 1}`}
-                            className="bg-transparent flex-1 font-medium outline-none"
+                            className="bg-transparent flex-1 font-medium outline-none text-sm"
                           />
                         </div>
                       ))}
@@ -906,8 +906,8 @@ export default function App() {
                   </motion.div>
                 ))}
                 {manualQuestions.length === 0 && (
-                  <div className="text-center py-20 bg-white/5 rounded-[3rem] border-2 border-dashed border-white/10">
-                    <p className="text-purple-300/30 font-bold uppercase tracking-widest">No questions added yet</p>
+                  <div className="text-center py-20 bg-white/5 rounded-3xl md:rounded-[3rem] border-2 border-dashed border-white/10">
+                    <p className="text-purple-200 font-bold uppercase tracking-widest">No questions added yet</p>
                   </div>
                 )}
               </div>
@@ -918,19 +918,19 @@ export default function App() {
         return (
           <div className="min-h-screen bg-[#1A0B2E] flex items-center justify-center p-4 font-sans text-white">
             <BackgroundAnimation />
-            <div className="text-center space-y-8 max-w-md">
+            <div className="text-center space-y-8 max-w-md w-full">
               <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto animate-pulse border border-white/10">
                 <Settings className="text-purple-400 w-10 h-10" />
               </div>
               <div className="space-y-2">
-                <h2 className="text-3xl font-black tracking-tighter">Waiting for Organizer</h2>
-                <p className="text-purple-300/50 italic serif">The questions are being prepared. Hang tight!</p>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tighter">Waiting for Organizer</h2>
+                <p className="text-purple-100 italic serif">The questions are being prepared. Hang tight!</p>
               </div>
               
               <div className="pt-8 border-t border-white/5">
                 {!showHostAuth ? (
                   <>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-4">Are you the host?</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-purple-200 mb-4">Are you the host?</p>
                     <button 
                       onClick={() => setShowHostAuth(true)}
                       className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-bold transition-colors"
@@ -940,7 +940,7 @@ export default function App() {
                   </>
                 ) : (
                       <div className="space-y-4 max-w-xs mx-auto">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-white/20">Host Authentication</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-purple-200">Host Authentication</p>
                         <div className="flex gap-2">
                           <input
                             type="password"
@@ -960,7 +960,7 @@ export default function App() {
                         {hostAuthError && <p className="text-red-400 text-[10px] font-black uppercase tracking-widest animate-pulse">Invalid Password</p>}
                         <button
                           onClick={() => setShowHostAuth(false)}
-                          className="text-[10px] font-bold text-white/20 hover:text-white/40 uppercase tracking-widest"
+                          className="text-[10px] font-bold text-white/40 hover:text-white/60 uppercase tracking-widest"
                         >
                           Cancel
                         </button>
@@ -974,30 +974,34 @@ export default function App() {
     }
 
     return (
-      <div className="min-h-screen bg-[#2D1B69] flex items-center justify-center p-4 font-sans">
+      <div className="min-h-screen bg-[#1A0B2E] flex items-center justify-center p-4 md:p-8 relative overflow-hidden">
         <BackgroundAnimation />
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-white/10 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white/20"
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-2xl p-8 md:p-12 rounded-3xl md:rounded-[3rem] border-4 md:border-8 border-white/20 shadow-2xl space-y-8 md:space-y-10"
         >
-          <div className="flex justify-center mb-8">
-            <div className="bg-gradient-to-br from-purple-400 to-indigo-600 p-5 rounded-3xl shadow-lg">
-              <Trophy className="text-white w-10 h-10" />
+          <div className="text-center space-y-4">
+            <div className="bg-yellow-500 w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_40px_rgba(234,179,8,0.3)] border-4 border-black">
+              <Car className="text-black w-8 h-8 md:w-10 md:h-10" />
             </div>
+            <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-white uppercase italic leading-none">
+              RoadSense <span className="text-yellow-400">Quest</span>
+            </h1>
+            <p className="text-purple-100 serif italic text-lg md:text-xl">
+              Enter your name to start the journey.
+            </p>
           </div>
-          <h1 className="text-4xl font-black text-center mb-2 text-white tracking-tight">ROAD SAFETY QUIZ</h1>
-          <p className="text-center text-purple-200/60 mb-10 serif italic">Enter your name to join</p>
 
           <div className="space-y-6">
             <div className="space-y-2">
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-purple-300/50 ml-2">Player Identity</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-300/60 ml-2">Player Name</label>
               <input
                 type="text"
+                placeholder="Type your name..."
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="What's your name?"
-                className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
+                className="w-full px-6 py-4 rounded-2xl bg-white/10 border-2 border-white/20 text-white placeholder:text-white/40 focus:outline-none focus:ring-4 focus:ring-purple-500/50 transition-all text-lg font-bold"
                 onKeyDown={(e) => e.key === "Enter" && joinGame()}
               />
             </div>
@@ -1005,15 +1009,15 @@ export default function App() {
               <button
                 onClick={joinGame}
                 disabled={!name.trim()}
-                className="w-full bg-emerald-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all disabled:opacity-50 active:scale-95 border-b-4 border-emerald-700 shadow-lg uppercase tracking-widest"
+                className="w-full bg-emerald-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all disabled:opacity-50 active:scale-95 border-b-8 border-emerald-700 shadow-2xl uppercase tracking-widest text-lg"
               >
-                Start Journey <LogIn size={20} />
+                Start Journey <LogIn size={24} />
               </button>
               <button
                 onClick={() => playSound('correct')}
-                className="text-[10px] font-black text-white/20 hover:text-white/40 uppercase tracking-widest flex items-center justify-center gap-2"
+                className="text-xs font-black text-white/60 hover:text-white uppercase tracking-widest flex items-center justify-center gap-2 transition-colors"
               >
-                <AlertCircle size={12} /> Test Sound
+                <AlertCircle size={14} /> Test Sound
               </button>
             </div>
           </div>
@@ -1028,28 +1032,30 @@ export default function App() {
       
       {/* Header */}
       {quizState !== "leaderboard" && (
-        <header className="bg-black/40 backdrop-blur-md border-b-4 border-white/10 px-8 py-5 flex items-center justify-between sticky top-0 z-50">
-          <div className="flex items-center gap-4">
-            <div className="bg-yellow-500 p-2.5 rounded-xl shadow-lg border-2 border-black">
-              <Car className="text-black w-5 h-5" />
+        <header className="bg-black/40 backdrop-blur-md border-b-4 border-white/10 px-4 md:px-8 py-4 md:py-5 flex items-center justify-between sticky top-0 z-50">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="bg-yellow-500 p-2 md:p-2.5 rounded-xl shadow-lg border-2 border-black">
+              <Car className="text-black w-4 h-4 md:w-5 md:h-5" />
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-3">
-                <span className="font-black text-2xl tracking-tighter text-white uppercase leading-none italic">
+              <div className="flex items-center gap-2 md:gap-3">
+                <span className="font-black text-lg md:text-2xl tracking-tighter text-white uppercase leading-none italic">
                   RoadSense <span className="text-yellow-400">Quest</span>
                 </span>
-                <TrafficLight />
+                <div className="hidden sm:block">
+                  <TrafficLight />
+                </div>
               </div>
               {isJoined && (
                 <div className="flex items-center gap-2 mt-1">
-                  <div className="h-1.5 w-24 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-1 md:h-1.5 w-16 md:w-24 bg-white/10 rounded-full overflow-hidden">
                     <motion.div 
                       className="h-full bg-emerald-500"
                       initial={{ width: 0 }}
                       animate={{ width: `${((currentQuestion?.index || 0) / (currentQuestion?.total || 1)) * 100}%` }}
                     />
                   </div>
-                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">
+                  <span className="text-[8px] md:text-[10px] font-black text-emerald-400 uppercase tracking-widest">
                     {users.find(u => u.id === userId)?.score || 0} PTS
                   </span>
                 </div>
@@ -1057,41 +1063,41 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 mr-4">
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="flex items-center gap-1 md:gap-2">
               <button 
                 onClick={() => {
                   setIsSoundEnabled(!isSoundEnabled);
                   if (!isSoundEnabled) playSound('correct');
                 }}
-                className={`p-2.5 rounded-xl border-2 transition-all ${isSoundEnabled ? "bg-yellow-400 border-black text-black" : "bg-white/5 border-white/10 text-white/40"}`}
+                className={`p-2 md:p-2.5 rounded-xl border-2 transition-all ${isSoundEnabled ? "bg-yellow-400 border-black text-black" : "bg-white/5 border-white/10 text-white/40"}`}
                 title={isSoundEnabled ? "Mute Sound" : "Unmute Sound"}
               >
-                {isSoundEnabled ? <Sparkles size={18} /> : <AlertCircle size={18} />}
+                {isSoundEnabled ? <Sparkles size={16} className="md:w-[18px] md:h-[18px]" /> : <AlertCircle size={16} className="md:w-[18px] md:h-[18px]" />}
               </button>
               <button 
                 onClick={toggleFullscreen}
-                className="p-2.5 rounded-xl bg-white/5 border-2 border-white/10 text-white/40 hover:text-white hover:border-white/20 transition-all"
+                className="p-2 md:p-2.5 rounded-xl bg-white/5 border-2 border-white/10 text-white/40 hover:text-white hover:border-white/20 transition-all hidden sm:flex"
                 title="Toggle Fullscreen"
               >
-                <Plus size={18} />
+                <Plus size={16} className="md:w-[18px] md:h-[18px]" />
               </button>
             </div>
 
             <button
               onClick={() => setShowShareModal(true)}
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl transition-all text-sm font-bold border border-white/10"
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-3 md:px-4 py-2 rounded-xl transition-all text-xs md:text-sm font-bold border border-white/10"
             >
-              <LinkIcon size={16} />
+              <LinkIcon size={14} className="md:w-4 md:h-4" />
               <span className="hidden sm:inline">Share Quiz</span>
             </button>
             {isOrganizer && (quizState === "question" || quizState === "answer") && (
               <div className="relative">
                 <button
                   onClick={() => setShowStopConfirm(!showStopConfirm)}
-                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl text-xs font-black border-2 border-white transition-all flex items-center gap-2 shadow-lg"
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 md:px-6 py-2 rounded-xl text-[10px] md:text-xs font-black border-2 border-white transition-all flex items-center gap-2 shadow-lg"
                 >
-                  <XCircle size={14} /> STOP
+                  <XCircle size={12} className="md:w-[14px] md:h-[14px]" /> STOP
                 </button>
                 
                 <AnimatePresence>
@@ -1122,14 +1128,14 @@ export default function App() {
                 </AnimatePresence>
               </div>
             )}
-            <div className="flex items-center gap-3 bg-blue-600 px-4 py-2 rounded-2xl border-2 border-white shadow-lg">
-              <Users size={18} className="text-white" />
-              <span className="text-sm font-black text-white">{users.length}</span>
+            <div className="flex items-center gap-2 md:gap-3 bg-blue-600 px-3 md:px-4 py-1.5 md:py-2 rounded-xl md:rounded-2xl border-2 border-white shadow-lg">
+              <Users size={14} className="text-white md:w-[18px] md:h-[18px]" />
+              <span className="text-xs md:text-sm font-black text-white">{users.length}</span>
             </div>
             {quizState === "question" && (
-              <div className="flex items-center gap-3 bg-emerald-500 text-white px-5 py-2 rounded-2xl shadow-lg border-2 border-white">
-                <Timer size={18} className="text-white" />
-                <span className="text-sm font-mono font-black">{timer}s</span>
+              <div className="flex items-center gap-2 md:gap-3 bg-emerald-500 text-white px-3 md:px-5 py-1.5 md:py-2 rounded-xl md:rounded-2xl shadow-lg border-2 border-white">
+                <Timer size={14} className="text-white md:w-[18px] md:h-[18px]" />
+                <span className="text-xs md:text-sm font-mono font-black">{timer}s</span>
               </div>
             )}
           </div>
@@ -1155,36 +1161,36 @@ export default function App() {
               key="lobby"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
             >
-              <div className="md:col-span-2 space-y-8">
-                <div className="bg-white/5 backdrop-blur-xl p-12 rounded-[3rem] border border-white/10 shadow-2xl">
-                  <div className="space-y-2 mb-10">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h2 className="text-5xl font-black tracking-tighter">Ready to Start?</h2>
+              <div className="md:col-span-2 space-y-6 md:space-y-8">
+                <div className="bg-white/5 backdrop-blur-xl p-6 md:p-12 rounded-3xl md:rounded-[3rem] border border-white/10 shadow-2xl">
+                  <div className="space-y-2 mb-8 md:mb-10">
+                    <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2">
+                      <h2 className="text-3xl md:text-5xl font-black tracking-tighter">Ready to Start?</h2>
                       {isOrganizer && (
-                        <span className="bg-purple-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+                        <span className="bg-purple-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest w-fit">
                           Organizer
                         </span>
                       )}
                     </div>
-                    <p className="text-purple-300/50 serif italic text-lg">
+                    <p className="text-purple-100 serif italic text-base md:text-lg">
                       The session is configured and ready.
                     </p>
                   </div>
 
                   {isOrganizer ? (
-                    <div className="space-y-8">
-                      <div className="bg-emerald-500/10 p-8 rounded-[2rem] border border-emerald-500/20 flex flex-col items-center text-center space-y-4">
+                    <div className="space-y-6 md:space-y-8">
+                      <div className="bg-emerald-500/10 p-6 md:p-8 rounded-3xl md:rounded-[2rem] border border-emerald-500/20 flex flex-col items-center text-center space-y-4">
                         <div className="bg-emerald-500 p-3 rounded-full">
                           <CheckCircle2 className="text-white w-6 h-6" />
                         </div>
                         <div>
                           <h3 className="text-xl font-black text-emerald-400">Quiz is Ready!</h3>
-                          <p className="text-purple-300/60 text-sm">The invitation link is ready to be shared.</p>
+                          <p className="text-purple-100 text-sm">The invitation link is ready to be shared.</p>
                         </div>
                         <div className="w-full bg-black/20 p-4 rounded-xl flex items-center justify-between gap-4 border border-white/5">
-                          <code className="text-xs font-mono text-purple-300 truncate">
+                          <code className="text-xs font-mono text-purple-200 truncate">
                             {window.location.origin}?session={sessionId}
                           </code>
                           <button 
@@ -1196,7 +1202,7 @@ export default function App() {
                         </div>
                         <div className="flex items-start gap-2 text-left bg-amber-500/5 p-3 rounded-xl border border-amber-500/10">
                           <AlertCircle className="text-amber-500 shrink-0 mt-0.5" size={14} />
-                          <p className="text-[10px] text-amber-200/60 leading-tight">
+                          <p className="text-[10px] text-amber-100 leading-tight">
                             <span className="font-bold text-amber-400">Note:</span> Share the link above. Do not copy the URL from your browser's address bar if you are using AI Studio.
                           </p>
                         </div>
@@ -1204,53 +1210,53 @@ export default function App() {
 
                       <button
                         onClick={startQuiz}
-                        className="w-full bg-emerald-500 text-white py-6 rounded-[2rem] font-black text-xl flex items-center justify-center gap-4 hover:bg-emerald-600 active:scale-95 transition-all shadow-2xl border-b-8 border-emerald-700 uppercase tracking-tighter"
+                        className="w-full bg-emerald-500 text-white py-5 md:py-6 rounded-2xl md:rounded-[2rem] font-black text-lg md:text-xl flex items-center justify-center gap-4 hover:bg-emerald-600 active:scale-95 transition-all shadow-2xl border-b-8 border-emerald-700 uppercase tracking-tighter"
                       >
                         <Play fill="white" size={24} /> GO! Start Session
                       </button>
                     </div>
                   ) : (
-                    <div className="bg-purple-500/10 p-8 rounded-[2rem] border border-purple-500/20 text-center">
-                      <p className="text-purple-300 font-bold uppercase tracking-widest animate-pulse">Waiting for Organizer to start...</p>
+                    <div className="bg-purple-500/10 p-8 rounded-3xl md:rounded-[2rem] border border-purple-500/20 text-center">
+                      <p className="text-purple-100 font-bold uppercase tracking-widest animate-pulse">Waiting for Organizer to start...</p>
                     </div>
                   )}
                 </div>
 
-                <div className="bg-white/5 p-8 rounded-[2.5rem] border border-white/5 flex items-center justify-between">
+                <div className="bg-white/5 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
                   <div className="flex items-center gap-6">
                     <div className="text-center">
-                      <div className="text-3xl font-black">{config.numQuestions}</div>
-                      <div className="text-[10px] font-black uppercase tracking-widest text-purple-300/30">Questions</div>
+                      <div className="text-2xl md:text-3xl font-black">{config.numQuestions}</div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-purple-200">Questions</div>
                     </div>
                     <div className="w-px h-10 bg-white/10" />
                     <div className="text-center">
-                      <div className="text-3xl font-black">{config.timePerQuestion}s</div>
-                      <div className="text-[10px] font-black uppercase tracking-widest text-purple-300/30">Per Question</div>
+                      <div className="text-2xl md:text-3xl font-black">{config.timePerQuestion}s</div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-purple-200">Per Question</div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs font-bold text-purple-300/50 uppercase tracking-widest">Session ID</p>
-                    <p className="font-mono font-bold text-purple-300">#{sessionId}</p>
+                  <div className="text-center md:text-right">
+                    <p className="text-xs font-bold text-purple-200 uppercase tracking-widest">Session ID</p>
+                    <p className="font-mono font-bold text-purple-100">#{sessionId}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white/5 p-8 rounded-[3rem] border border-white/10 h-fit">
-                <h3 className="font-black mb-6 text-purple-300/30 uppercase text-[10px] tracking-[0.3em]">
+              <div className="bg-white/5 p-6 md:p-8 rounded-3xl md:rounded-[3rem] border border-white/10 h-fit">
+                <h3 className="font-black mb-6 text-purple-200 uppercase text-[10px] tracking-[0.3em]">
                   Players Joined ({users.length})
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-3 md:space-y-4">
                   {users.map((u) => (
                     <motion.div 
                       layout
                       key={u.id} 
-                      className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/5"
+                      className="flex items-center gap-4 p-3 md:p-4 bg-white/5 rounded-2xl border border-white/5"
                     >
                       <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-black shadow-lg">
                         {u.name[0].toUpperCase()}
                       </div>
                       <div className="flex-1">
-                        <span className="font-bold block">{u.name}</span>
+                        <span className="font-bold block text-sm md:text-base">{u.name}</span>
                         {u.id === userId && <span className="text-[10px] font-black text-purple-400 uppercase tracking-widest">You</span>}
                       </div>
                     </motion.div>
@@ -1268,18 +1274,18 @@ export default function App() {
               exit={{ opacity: 0, y: -30 }}
               className="space-y-12 py-10"
             >
-              <div className="text-center space-y-8">
+              <div className="text-center space-y-6 md:space-y-8">
                 <div className="max-w-4xl mx-auto space-y-4">
                   <div className="flex items-center justify-between px-4">
                     <div className="flex items-center gap-3">
-                      <div className="bg-yellow-400 text-black p-2 rounded-lg rotate-3 shadow-lg border-2 border-black">
-                        <TrafficCone size={18} />
+                      <div className="bg-yellow-400 text-black p-1.5 md:p-2 rounded-lg rotate-3 shadow-lg border-2 border-black">
+                        <TrafficCone size={16} className="md:w-[18px] md:h-[18px]" />
                       </div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-yellow-400/80">
+                      <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] text-yellow-400/80">
                         Question {currentQuestion.index + 1} / {currentQuestion.total}
                       </span>
                     </div>
-                    <div className="flex-1 max-w-[200px] h-2 bg-white/10 rounded-full overflow-hidden ml-4">
+                    <div className="flex-1 max-w-[120px] md:max-w-[200px] h-1.5 md:h-2 bg-white/10 rounded-full overflow-hidden ml-4">
                       <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${((currentQuestion.index + 1) / currentQuestion.total) * 100}%` }}
@@ -1291,17 +1297,17 @@ export default function App() {
                   <motion.div 
                     initial={{ rotate: -1, scale: 0.95 }}
                     animate={{ rotate: 0, scale: 1 }}
-                    className="bg-black/60 backdrop-blur-2xl text-white px-10 py-12 rounded-[3rem] border border-white/10 shadow-2xl relative overflow-hidden group"
+                    className="bg-black/60 backdrop-blur-2xl text-white px-6 py-8 md:px-10 md:py-12 rounded-2xl md:rounded-[3rem] border border-white/10 shadow-2xl relative overflow-hidden group"
                   >
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent" />
-                    <h2 className="text-3xl md:text-5xl font-black leading-tight tracking-tighter uppercase">
+                    <h2 className="text-xl md:text-5xl font-black leading-tight tracking-tighter uppercase">
                       {currentQuestion.text}
                     </h2>
                   </motion.div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
                 {currentQuestion.options.map((option, idx) => {
                   const isCorrect = correctAnswer === idx;
                   const isSelected = selectedAnswer === idx;
@@ -1322,7 +1328,7 @@ export default function App() {
                       onClick={() => submitAnswer(idx)}
                       disabled={selectedAnswer !== null || quizState === "answer"}
                       className={`
-                        relative p-8 rounded-[2rem] text-left transition-all border-4 flex items-center justify-between group shadow-2xl
+                        relative p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-left transition-all border-4 flex items-center justify-between group shadow-2xl
                         ${quizState === "question"
                           ? isSelected
                             ? "bg-white text-black border-black scale-105 z-10"
@@ -1335,16 +1341,16 @@ export default function App() {
                         }
                       `}
                     >
-                      <div className="flex items-center gap-6">
-                        <div className={`w-14 h-14 rounded-full flex items-center justify-center font-black text-2xl border-4 ${
+                      <div className="flex items-center gap-4 md:gap-6">
+                        <div className={`w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center font-black text-lg md:text-2xl border-4 ${
                           isSelected ? "bg-black text-white border-black" : "bg-white text-black border-black"
                         }`}>
                           {String.fromCharCode(65 + idx)}
                         </div>
-                        <span className="text-2xl font-black uppercase tracking-tight">{option}</span>
+                        <span className="text-lg md:text-2xl font-black uppercase tracking-tight">{option}</span>
                       </div>
-                      {quizState === "answer" && isCorrect && <CheckCircle2 size={40} className="text-white" />}
-                      {quizState === "answer" && isWrong && <XCircle size={40} className="text-white" />}
+                      {quizState === "answer" && isCorrect && <CheckCircle2 size={32} className="text-white md:w-10 md:h-10" />}
+                      {quizState === "answer" && isWrong && <XCircle size={32} className="text-white md:w-10 md:h-10" />}
                     </motion.button>
                   );
                 })}
@@ -1384,31 +1390,31 @@ export default function App() {
               key="leaderboard"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white/10 backdrop-blur-2xl p-16 rounded-[4rem] border-8 border-white/20 shadow-2xl max-w-4xl mx-auto text-center"
+              className="bg-white/10 backdrop-blur-2xl p-8 md:p-16 rounded-3xl md:rounded-[4rem] border-4 md:border-8 border-white/20 shadow-2xl max-w-4xl mx-auto text-center"
             >
-              <div className="mb-16 space-y-4">
+              <div className="mb-8 md:mb-16 space-y-4">
                 <motion.div 
                   animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
                   transition={{ repeat: Infinity, duration: 4 }}
-                  className="inline-block bg-yellow-500 p-10 rounded-full mb-6 shadow-[0_0_60px_rgba(234,179,8,0.4)] border-4 border-black"
+                  className="inline-block bg-yellow-500 p-6 md:p-10 rounded-full mb-4 md:mb-6 shadow-[0_0_60px_rgba(234,179,8,0.4)] border-4 border-black"
                 >
-                  <Trophy className="text-black w-20 h-20" />
+                  <Trophy className="text-black w-12 h-12 md:w-20 md:h-20" />
                 </motion.div>
-                <h2 className="text-8xl font-black tracking-tighter mb-4 uppercase italic">Final Standings</h2>
-                <p className="text-emerald-400 font-black italic text-3xl tracking-tight">The journey concludes. Who ruled the road?</p>
+                <h2 className="text-4xl md:text-8xl font-black tracking-tighter mb-2 md:mb-4 uppercase italic text-white">Final Standings</h2>
+                <p className="text-emerald-400 font-black italic text-xl md:text-3xl tracking-tight">The journey concludes. Who ruled the road?</p>
               </div>
 
-              <div className="space-y-8 max-w-2xl mx-auto">
-                <div className="bg-white/5 p-10 rounded-[3rem] border-4 border-white/10">
-                  <p className="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-8">Leaderboard Badges</p>
-                  <div className="space-y-6">
+              <div className="space-y-6 md:space-y-8 max-w-2xl mx-auto">
+                <div className="bg-white/5 p-6 md:p-10 rounded-2xl md:rounded-[3rem] border-2 md:border-4 border-white/10">
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-6 md:mb-8">Leaderboard Badges</p>
+                  <div className="space-y-4 md:space-y-6">
                     {users.slice(0, 10).map((u, idx) => (
                       <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: idx * 0.1 }}
                         key={u.id}
-                        className={`flex items-center justify-between p-6 rounded-3xl border-2 relative overflow-hidden group ${
+                        className={`flex items-center justify-between p-4 md:p-6 rounded-2xl md:rounded-3xl border-2 relative overflow-hidden group ${
                           idx === 0 
                             ? "bg-yellow-500 text-black border-white scale-105 shadow-2xl" 
                             : idx === 1 
@@ -1418,16 +1424,16 @@ export default function App() {
                             : "bg-white/5 border-white/10 text-white"
                         }`}
                       >
-                        <div className="flex items-center gap-6">
-                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-black text-2xl border-2 ${
+                        <div className="flex items-center gap-4 md:gap-6">
+                          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-xl md:text-2xl border-2 ${
                             idx === 0 ? "bg-black text-yellow-500 border-black" : "bg-white/10 border-white/20"
                           }`}>
                             {idx + 1}
                           </div>
                           <div className="text-left">
-                            <span className="text-2xl font-black tracking-tight block">{u.name}</span>
+                            <span className="text-lg md:text-2xl font-black tracking-tight block">{u.name}</span>
                             <div className="flex items-center gap-2">
-                              <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${
+                              <span className={`text-[8px] md:text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${
                                 idx === 0 ? "bg-black/20" : "bg-white/10"
                               }`}>
                                 {idx === 0 ? "🏆 Grand Champion" : idx === 1 ? "🥈 Silver Racer" : idx === 2 ? "🥉 Bronze Driver" : "🏁 Finisher"}
@@ -1436,8 +1442,8 @@ export default function App() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <span className="text-3xl font-mono font-black">{u.score}</span>
-                          <div className={`text-[10px] font-black uppercase tracking-widest ${idx < 3 ? "opacity-60" : "opacity-20"}`}>Points</div>
+                          <span className="text-xl md:text-3xl font-mono font-black">{u.score}</span>
+                          <div className={`text-[8px] md:text-[10px] font-black uppercase tracking-widest ${idx < 3 ? "opacity-60" : "opacity-20"}`}>Points</div>
                         </div>
                         {idx === 0 && (
                           <motion.div 
@@ -1451,16 +1457,16 @@ export default function App() {
                   </div>
                 </div>
                 
-                <div className="pt-12 space-y-4">
+                <div className="pt-8 md:pt-12 space-y-4">
                   {isOrganizer && (
                     <button
                       onClick={resetSession}
-                      className="w-full bg-purple-500 text-white py-5 rounded-3xl font-black flex items-center justify-center gap-3 hover:bg-purple-600 transition-all shadow-xl uppercase tracking-widest border-b-4 border-purple-700 active:scale-95"
+                      className="w-full bg-purple-500 text-white py-4 md:py-5 rounded-2xl md:rounded-3xl font-black flex items-center justify-center gap-3 hover:bg-purple-600 transition-all shadow-xl uppercase tracking-widest border-b-4 border-purple-700 active:scale-95"
                     >
                       <Plus size={20} /> START NEW JOURNEY
                     </button>
                   )}
-                  <p className="text-white/20 font-black uppercase tracking-widest text-xs">
+                  <p className="text-white/20 font-black uppercase tracking-widest text-[10px] md:text-xs">
                     Thank you for playing. Drive safely!
                   </p>
                 </div>
@@ -1484,23 +1490,23 @@ export default function App() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative bg-[#1A0B2E] border border-white/10 p-8 rounded-[2.5rem] shadow-2xl max-w-lg w-full space-y-6"
+              className="relative bg-[#1A0B2E] border border-white/10 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] shadow-2xl max-w-lg w-full space-y-6"
             >
               <div className="text-center space-y-2">
-                <div className="bg-purple-500/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <LinkIcon className="text-purple-400 w-8 h-8" />
+                <div className="bg-purple-500/20 w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4">
+                  <LinkIcon className="text-purple-400 w-6 h-6 md:w-8 md:h-8" />
                 </div>
-                <h3 className="text-3xl font-black tracking-tighter">Share Your Quiz</h3>
-                <p className="text-purple-300/60 serif italic">
+                <h3 className="text-2xl md:text-3xl font-black tracking-tighter text-white">Share Your Quiz</h3>
+                <p className="text-purple-300/60 serif italic text-sm md:text-base">
                   Send this link to your friends to let them join the session!
                 </p>
               </div>
 
-              <div className="bg-black/40 p-6 rounded-2xl border border-white/5 space-y-4">
+              <div className="bg-black/40 p-4 md:p-6 rounded-2xl border border-white/5 space-y-4">
                 <div className="flex flex-col space-y-2">
                   <span className="text-[10px] font-black uppercase tracking-widest text-purple-300/40">Direct Quiz Link</span>
                   <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10">
-                    <code className="text-xs font-mono text-purple-300 truncate flex-1">
+                    <code className="text-[10px] md:text-xs font-mono text-purple-300 truncate flex-1">
                       {window.location.origin}{sessionId ? `?session=${sessionId}` : ""}
                     </code>
                     <button
@@ -1517,9 +1523,9 @@ export default function App() {
                   </div>
                 </div>
                 
-                <div className="p-4 bg-amber-500/10 rounded-xl border border-amber-500/20 flex gap-3">
-                  <AlertCircle className="text-amber-500 shrink-0" size={20} />
-                  <p className="text-xs text-amber-200/80 leading-relaxed">
+                <div className="p-3 md:p-4 bg-amber-500/10 rounded-xl border border-amber-500/20 flex gap-3">
+                  <AlertCircle className="text-amber-500 shrink-0" size={16} />
+                  <p className="text-[10px] md:text-xs text-amber-200/80 leading-relaxed">
                     <span className="font-bold text-amber-400">Important:</span> Do not copy the link from your browser's address bar if you are in AI Studio. Use the link above to ensure users open the quiz directly.
                   </p>
                 </div>
@@ -1527,7 +1533,7 @@ export default function App() {
 
               <button
                 onClick={() => setShowShareModal(false)}
-                className="w-full bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-black transition-all"
+                className="w-full bg-white/5 hover:bg-white/10 text-white py-3 md:py-4 rounded-2xl font-black transition-all text-sm md:text-base"
               >
                 CLOSE
               </button>
