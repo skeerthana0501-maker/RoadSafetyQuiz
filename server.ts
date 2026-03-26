@@ -39,6 +39,7 @@ interface Question {
   text: string;
   options: string[];
   correctAnswer: number;
+  explanation?: string;
 }
 
 interface User {
@@ -91,7 +92,12 @@ function broadcastUserList(immediate = false) {
         if (b.score !== a.score) return b.score - a.score;
         return a.name.localeCompare(b.name); // Stable sort by name
       })
-      .map(u => ({ id: u.id, name: u.name, score: u.score }));
+      .map(u => ({ 
+        id: u.id, 
+        name: u.name, 
+        score: u.score,
+        answered: u.lastAnswerTime !== undefined 
+      }));
       
     broadcast({ 
       type: "user_list", 
@@ -331,8 +337,7 @@ wss.on("connection", (ws, req) => {
             const points = Math.max(100, Math.floor(1000 * (1 - timeTakenSec / config.timePerQuestion)));
             user.score += points;
           }
-          broadcast({ type: "user_answered", userId });
-          broadcastUserList(); // Update leaderboard immediately on answer
+          broadcastUserList(); // Update leaderboard and answer status
         }
         break;
 
@@ -420,4 +425,5 @@ async function init() {
 }
 
 init();
+
 
