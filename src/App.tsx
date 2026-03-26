@@ -8,6 +8,7 @@ interface User {
   name: string;
   score: number;
   answeredCorrectly?: boolean;
+  answered?: boolean;
 }
 
 interface Question {
@@ -18,154 +19,154 @@ interface Question {
 
 const ROAD_SAFETY_QUESTIONS: Question[] = [
   {
-    text: "Which factor most critically determines accident severity?",
-    options: ["Vehicle speed", "Road color", "Driver age", "Fuel type"],
-    correctAnswer: 0
-  },
-  {
-    text: "Reaction distance increases mainly with:",
-    options: ["Vehicle weight", "Driver experience", "Speed of the vehicle", "Tire size"],
+    text: "Why should you increase distance from the vehicle ahead at high speed?",
+    options: ["To improve fuel efficiency", "To reduce engine load", "Because stopping distance increases with speed", "To allow overtaking"],
     correctAnswer: 2
   },
   {
-    text: "Total stopping distance is the sum of:",
-    options: ["Reaction distance + braking distance", "Speed + time", "Distance + velocity", "Friction + energy"],
-    correctAnswer: 0
-  },
-  {
-    text: "Why is night driving riskier than day driving?",
-    options: ["Roads are longer", "Vehicles are heavier", "Reduced depth perception and visibility", "Less traffic signals"],
-    correctAnswer: 2
-  },
-  {
-    text: "Which condition increases braking distance the most?",
-    options: ["Dry road", "Wet or slippery road", "New tires", "Low speed"],
+    text: "What is the main risk of driving immediately after rain starts?",
+    options: ["Roads become clean", "Oil mixes with water making road slippery", "Traffic becomes less", "Tires become stronger"],
     correctAnswer: 1
   },
   {
-    text: "What is the main purpose of speed limits?",
-    options: ["Increase travel time", "Reduce fuel usage", "Ensure safety based on road conditions", "Control vehicle sales"],
+    text: "🚗⚠️ (Situation) You see an accident ahead on the road. What should you do first?",
+    options: ["Speed up and pass quickly", "Stop in the middle of the road", "Slow down and assess the situation", "Ignore and continue"],
     correctAnswer: 2
   },
   {
-    text: "Which driver behavior shows “risk compensation”?",
-    options: ["Driving slower in rain", "Driving faster due to safety features like ABS", "Wearing a seatbelt", "Using indicators"],
+    text: "When should you avoid overtaking another vehicle?",
+    options: ["On straight roads", "When road is wide", "Near curves or hills", "When traffic is low"],
+    correctAnswer: 2
+  },
+  {
+    text: "What is the safest action if a vehicle suddenly brakes ahead?",
+    options: ["Change lane immediately", "Apply brakes smoothly", "Honk continuously", "Accelerate"],
     correctAnswer: 1
   },
   {
-    text: "What happens during hydroplaning?",
-    options: ["Tires grip stronger", "Tires lose contact with road due to water layer", "Engine stops", "Brakes fail"],
+    text: "🚗💥 (Situation) While driving, your brakes suddenly feel weak. What should you do?",
+    options: ["Panic", "Accelerate", "Use lower gear and apply brakes gradually", "Turn off engine immediately"],
+    correctAnswer: 2
+  },
+  {
+    text: "Why is using high beam in city traffic unsafe?",
+    options: ["It reduces battery", "It increases speed", "It can affect visibility of other drivers", "It damages lights"],
+    correctAnswer: 2
+  },
+  {
+    text: "What happens if you drive too close behind a large vehicle?",
+    options: ["Better protection", "Reduced visibility ahead", "Increased speed", "Less fuel use"],
     correctAnswer: 1
   },
   {
-    text: "Which is an example of active safety?",
-    options: ["Airbags", "Seat belts", "ABS system", "Crumple zones"],
+    text: "🌫️🚗 (Situation) You are driving in fog and can barely see ahead. What should you do?",
+    options: ["Use high beam", "Drive fast", "Use low beam and reduce speed", "Follow vehicle closely"],
     correctAnswer: 2
   },
   {
-    text: "Why is tailgating dangerous?",
-    options: ["Reduces fuel consumption", "Increases braking efficiency", "Reduces reaction time to avoid collision", "Improves traffic flow"],
+    text: "Why is sudden lane changing risky?",
+    options: ["Saves time", "Reduces fuel", "Other drivers may not expect it", "Improves control"],
     correctAnswer: 2
   },
   {
-    text: "Which factor most affects driver reaction time?",
-    options: ["Vehicle color", "Fatigue and distraction", "Road length", "Engine capacity"],
+    text: "What is the purpose of keeping both hands on the steering wheel?",
+    options: ["Look professional", "Improve control", "Reduce fuel", "Increase speed"],
     correctAnswer: 1
   },
   {
-    text: "Safest action if someone tailgates you?",
-    options: ["Brake suddenly", "Speed up", "Maintain speed and allow overtaking", "Block them"],
+    text: "🚶‍♂️🚗 (Situation) A pedestrian suddenly crosses in front of you. What should you do?",
+    options: ["Honk and continue", "Speed up", "Brake and allow them to cross", "Turn sharply"],
     correctAnswer: 2
   },
   {
-    text: "Which absorbs crash impact energy?",
-    options: ["Median", "Guardrails/crash barriers", "Speed breakers", "Lane markings"],
+    text: "Why is it unsafe to drive with worn-out tires?",
+    options: ["Reduces fuel", "Improves speed", "Reduces grip on road", "Increases comfort"],
+    correctAnswer: 2
+  },
+  {
+    text: "When is accident risk highest?",
+    options: ["Steady driving", "Sudden speed/direction change", "Parked vehicle", "Reversing slowly"],
     correctAnswer: 1
   },
   {
-    text: "Why are reflective signs used?",
-    options: ["Decoration", "Reduce speed", "Improve visibility in low light", "Improve road quality"],
+    text: "🚗📵 (Situation) You receive a phone call while driving. What should you do?",
+    options: ["Answer immediately", "Ignore road and talk", "Stop safely before answering", "Drive faster"],
     correctAnswer: 2
   },
   {
-    text: "Why does over-speeding increase risk sharply?",
-    options: ["Tires wear faster", "Reaction time decreases", "Kinetic energy increases with square of speed", "Fuel burns faster"],
+    text: "What should you do if traffic lights are not working?",
+    options: ["Ignore", "Drive fast", "Follow police or signs", "Stop permanently"],
     correctAnswer: 2
   },
   {
-    text: "Highest accident probability occurs in:",
-    options: ["Straight road", "Empty highway", "Parked zone", "Sharp turn at high speed"],
-    correctAnswer: 3
-  },
-  {
-    text: "Purpose of lane discipline?",
-    options: ["Save fuel", "Increase overtaking", "Maintain predictable traffic flow", "Reduce vehicle size"],
+    text: "🚗😡 (Situation) A driver behind is honking continuously and driving aggressively. What should you do?",
+    options: ["Compete with them", "Brake suddenly", "Stay calm and let them pass", "Block them"],
     correctAnswer: 2
   },
   {
-    text: "What is a conflict point?",
-    options: ["Parking area", "Toll booth", "Fuel station", "Intersection where paths cross"],
-    correctAnswer: 3
-  },
-  {
-    text: "Why are pedestrians more vulnerable?",
-    options: ["Walk slowly", "Ignore signals", "Lack protective structure", "Use roads less"],
+    text: "Why avoid blind spots of other vehicles?",
+    options: ["Saves fuel", "Improves speed", "Driver cannot see you", "Reduces noise"],
     correctAnswer: 2
   },
   {
-    text: "Effect of fatigue on driving?",
-    options: ["Improves focus", "Slows reaction and decision-making", "Increases energy", "Improves braking"],
+    text: "Why wear seat belts even at low speed?",
+    options: ["Avoid fine", "Accidents can still cause injury", "Comfort", "Speed"],
     correctAnswer: 1
   },
   {
-    text: "Why avoid sudden braking at high speed?",
-    options: ["Increases fuel usage", "Damages engine", "Improves stopping", "Causes skidding/instability"],
-    correctAnswer: 3
-  },
-  {
-    text: "Defensive driving is based on:",
-    options: ["Aggression", "High speed", "Prediction and anticipation of hazards", "Ignoring others"],
+    text: "🚗⛰️ (Situation) You are driving downhill. What should you do?",
+    options: ["Speed up", "Keep brakes pressed hard", "Use lower gear and control speed", "Turn off engine"],
     correctAnswer: 2
   },
   {
-    text: "Which reduces friction the most?",
-    options: ["Dry asphalt", "Concrete", "Rough road", "Oil or mud on road"],
-    correctAnswer: 3
-  },
-  {
-    text: "Why is overtaking on curves dangerous?",
-    options: ["Narrow roads", "Slower vehicles", "More signals", "Limited visibility of oncoming traffic"],
-    correctAnswer: 3
-  },
-  {
-    text: "What does “right of way” mean?",
-    options: ["Right turn", "Driving on right", "Priority to proceed in traffic", "Overtaking"],
+    text: "Safest way to approach a sharp turn?",
+    options: ["Accelerate", "High speed", "Slow before turning", "Overtake"],
     correctAnswer: 2
   },
   {
-    text: "Safe speed during heavy rain?",
-    options: ["Same as normal", "Maximum speed", "Reduced based on visibility and grip", "Higher speed"],
+    text: "Why avoid distractions while driving?",
+    options: ["Save battery", "Comfort", "Full attention needed", "Fuel saving"],
     correctAnswer: 2
   },
   {
-    text: "Why speed breakers near schools?",
-    options: ["Decoration", "Increase traffic", "Control pollution", "Reduce speed for safety"],
-    correctAnswer: 3
+    text: "Main danger of high speed in traffic?",
+    options: ["Fuel loss", "Higher collision risk", "Engine damage", "Noise"],
+    correctAnswer: 1
   },
   {
-    text: "Function of road markings?",
-    options: ["Beautification", "Increase friction", "Reduce cost", "Guide and regulate traffic"],
-    correctAnswer: 3
+    text: "🚗💧 (Situation) Your car starts skidding on a wet road. What should you do?",
+    options: ["Brake hard", "Turn sharply", "Stay calm and steer gently", "Accelerate"],
+    correctAnswer: 2
   },
   {
-    text: "Most effective accident prevention?",
-    options: ["Driving fast", "Using horn", "Ignoring signals", "Following rules and staying alert"],
-    correctAnswer: 3
+    text: "Why is consistent speed safer?",
+    options: ["Fuel saving", "Predictable movement", "More speed", "Less traffic"],
+    correctAnswer: 1
   },
   {
-    text: "Why is driver training important?",
-    options: ["Learn vehicle color", "Reduce fuel use", "Increase speed", "Improve skills and decision-making"],
-    correctAnswer: 3
+    text: "Safest way to drive at night?",
+    options: ["Fast", "Use lights + reduce speed", "Ignore signals", "Overtake"],
+    correctAnswer: 1
+  },
+  {
+    text: "Why avoid sudden braking on wet roads?",
+    options: ["Saves fuel", "Improves grip", "Causes skidding", "Increases speed"],
+    correctAnswer: 2
+  },
+  {
+    text: "🚑🚗 (Situation) An ambulance with siren approaches from behind. What should you do?",
+    options: ["Ignore", "Race", "Give way immediately", "Follow closely"],
+    correctAnswer: 2
+  },
+  {
+    text: "Why is aggressive driving unsafe?",
+    options: ["Saves time", "Increases accident risk", "Improves control", "Reduces traffic"],
+    correctAnswer: 1
+  },
+  {
+    text: "Main goal of road safety?",
+    options: ["Speed", "Reduce accidents and protect lives", "Traffic increase", "Fuel saving"],
+    correctAnswer: 1
   }
 ];
 
@@ -291,7 +292,6 @@ export default function App() {
   const [timer, setTimer] = useState(0);
   const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [answeredUsers, setAnsweredUsers] = useState<Set<string>>(new Set());
   const [config, setConfig] = useState({ numQuestions: 5, numOptions: 4, timePerQuestion: 25 });
   const [manualQuestions, setManualQuestions] = useState<Question[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -494,10 +494,6 @@ export default function App() {
             setCurrentQuestion(data.question);
             setCorrectAnswer(null);
             setSelectedAnswer(null);
-            setAnsweredUsers(new Set());
-            break;
-          case "user_answered":
-            setAnsweredUsers(prev => new Set(prev).add(data.userId));
             break;
           case "reveal_answer":
             setQuizState("answer");
@@ -1245,18 +1241,19 @@ export default function App() {
                 <h3 className="font-black mb-6 text-purple-200 uppercase text-[10px] tracking-[0.3em]">
                   Players Joined ({users.length})
                 </h3>
-                <div className="space-y-3 md:space-y-4">
+                <div className="space-y-2 md:space-y-3 max-h-[40vh] md:max-h-[50vh] overflow-y-auto pr-2 scrollbar-hide">
                   {users.map((u) => (
                     <motion.div 
-                      layout
                       key={u.id} 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
                       className="flex items-center gap-4 p-3 md:p-4 bg-white/5 rounded-2xl border border-white/5"
                     >
-                      <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-black shadow-lg">
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-purple-400 to-indigo-600 rounded-full flex items-center justify-center text-white text-xs md:text-sm font-black shadow-lg shrink-0">
                         {u.name[0].toUpperCase()}
                       </div>
-                      <div className="flex-1">
-                        <span className="font-bold block text-sm md:text-base">{u.name}</span>
+                      <div className="flex-1 truncate">
+                        <span className="font-bold block text-sm md:text-base truncate">{u.name}</span>
                         {u.id === userId && <span className="text-[10px] font-black text-purple-400 uppercase tracking-widest">You</span>}
                       </div>
                     </motion.div>
@@ -1356,18 +1353,26 @@ export default function App() {
                 })}
               </div>
 
-              <div className="flex justify-center gap-3">
-                {users.map((u) => (
-                  <motion.div
-                    key={u.id}
-                    title={u.name}
-                    animate={{ 
-                      scale: answeredUsers.has(u.id) ? 1.2 : 1,
-                      backgroundColor: answeredUsers.has(u.id) ? "#A855F7" : "rgba(255,255,255,0.1)"
-                    }}
-                    className="w-4 h-4 rounded-full border border-white/10"
-                  />
-                ))}
+              <div className="flex flex-wrap justify-center gap-2 max-w-xl mx-auto">
+                {users.length > 20 ? (
+                  <div className="bg-white/5 px-6 py-3 rounded-full border border-white/10">
+                    <p className="text-sm font-black uppercase tracking-widest">
+                      <span className="text-purple-400">{users.filter(u => u.answered).length}</span> / {users.length} Players Answered
+                    </p>
+                  </div>
+                ) : (
+                  users.map((u) => (
+                    <motion.div
+                      key={u.id}
+                      title={u.name}
+                      animate={{ 
+                        scale: u.answered ? 1.2 : 1,
+                        backgroundColor: u.answered ? "#A855F7" : "rgba(255,255,255,0.1)"
+                      }}
+                      className="w-3 h-3 md:w-4 md:h-4 rounded-full border border-white/10"
+                    />
+                  ))
+                )}
               </div>
 
               {quizState === "answer" && (
